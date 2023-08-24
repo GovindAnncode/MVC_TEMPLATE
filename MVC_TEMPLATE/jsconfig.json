@@ -191,6 +191,22 @@
         "image_url": "http.king.oraganistion.jpeg",
         "title": "New Products",
         "page_url": "theme.collection.url"
+      },
+      {
+        "id": 141,
+        "platform_collection_id": "676456564",
+        "platform_product_id": "4444",
+        "image_url": "http.king.oraganistion.jpeg",
+        "title": "New Products",
+        "page_url": "theme.collection.url"
+      },
+      {
+        "id": 140,
+        "platform_collection_id": "5675675",
+        "platform_product_id": "5555",
+        "image_url": "neworg.com.jpeg",
+        "title": "New Hair Product",
+        "page_url": "newhomescolllection/tshirt"
       }
     ]
   },
@@ -354,31 +370,31 @@
   "buy_more_save_more": {
     "Rules": [
       {
-        "product_min_count": 1,
-        "product_max_count": 10,
-        "free_shipping": false,
+        "product_min_count": 5,
+        "product_max_count": 20,
+        "free_shipping": true,
         "discount_percentage": 10,
         "message": "Add XX more item to earn 10% discount with free shipping.",
         "applied_msg": "You earned free shipping. "
       },
       {
-        "product_min_count": 3,
-        "product_max_count": 10,
-        "free_shipping": false,
+        "product_min_count": 5,
+        "product_max_count": 15,
+        "free_shipping": true,
         "discount_percentage": 10,
         "message": "Add XX more item to earn 15% discount with free shipping.",
         "applied_msg": "You earned 10% discount and free shipping."
       },
       {
-        "product_min_count": 4,
+        "product_min_count": 5,
         "product_max_count": 10,
-        "free_shipping": false,
+        "free_shipping": true,
         "discount_percentage": 15,
         "message": "Add XX more item to earn 25% discount and free shipping.",
         "applied_msg": "You earned 15% discount and free shipping"
       },
       {
-        "product_min_count": 6,
+        "product_min_count": 5,
         "product_max_count": 10,
         "free_shipping": false,
         "discount_percentage": 25,
@@ -386,20 +402,28 @@
         "applied_msg": "You earned 25% discount and free shipping."
       },
       {
-        "product_min_count": 2,
-        "product_max_count": 10,
-        "free_shipping": false,
-        "discount_percentage": 18,
-        "message": "Summer Sale Products",
-        "applied_msg": "You will get 18% discount"
+        "product_min_count": 5,
+        "product_max_count": 20,
+        "free_shipping": true,
+        "discount_percentage": 10,
+        "message": "Rakshabandhan sale",
+        "applied_msg": "you will get 10% discount"
       },
       {
         "product_min_count": 5,
-        "product_max_count": 25,
-        "free_shipping": false,
-        "discount_percentage": 25,
-        "message": "New Year Sale",
-        "applied_msg": "you will get 25% discount on purchasing"
+        "product_max_count": 20,
+        "free_shipping": true,
+        "discount_percentage": 10,
+        "message": "Rakshabandhan sale",
+        "applied_msg": "you will get 10% discount"
+      },
+      {
+        "product_min_count": 2,
+        "product_max_count": 8,
+        "free_shipping": true,
+        "discount_percentage": 20,
+        "message": "new year sale",
+        "applied_msg": "You will get 20% discount"
       }
     ],
     "exclude_tags": [

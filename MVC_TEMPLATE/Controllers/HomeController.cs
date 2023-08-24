@@ -170,49 +170,17 @@ namespace MVC_TEMPLATE.Controllers
             string jsonData = System.IO.File.ReadAllText(jsonFilePath);
             dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
-            foreach (var newItemData in newItem)
-            {
-                bool itemExists = false;
-
-                foreach (var itemData in jsonObject.buy_more_save_more["Rules"])
-                {
-                    if (itemData["product_min_count"] != null && (int)itemData["product_min_count"] == newItemData.product_min_count)
-                    {
-                        itemData["product_max_count"] = newItemData.product_max_count;
-                        itemData["free_shipping"] = newItemData.free_shipping;
-                        itemData["discount_percentage"] = newItemData.discount_percentage;
-                        itemData["message"] = newItemData.message;
-                        itemData["applied_msg"] = newItemData.applied_msg;
-                        // Update other fields
-                        itemExists = true;
-                        break;
-                    }
-                }
-
-                if (!itemExists)
-                {
-                    // Create a new item and add it to the "items" array
-                    var newItemObject = new Rules
-                    {
-                        product_min_count = newItemData.product_min_count,
-                        product_max_count = newItemData.product_max_count,
-                        free_shipping = newItemData.free_shipping,
-                        discount_percentage = newItemData.discount_percentage,
-                        message = newItemData.message,
-                        applied_msg = newItemData.applied_msg
-                        // Add other fields
-                    };
-
-                    jsonObject.buy_more_save_more["Rules"].Add(JObject.FromObject(newItemData));
-                }
-            }
+            // Update the "Rules" section
+            jsonObject.buy_more_save_more.Rules = JArray.FromObject(newItem);
 
             // Serialize the updated JSON object and write it back to the file
             string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
             System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
 
-            return RedirectToAction("Rules","Home");
+            return RedirectToAction("Rules", "Home");
         }
+
+
 
         [HttpPost]
         public ActionResult DeleteRule(int sectionId)
