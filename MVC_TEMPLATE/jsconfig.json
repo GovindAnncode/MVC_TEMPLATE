@@ -1,0 +1,414 @@
+{
+  "AfterInstallShowBanner": {
+    "data": [
+      {
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/5.jpeg",
+        "id": 1
+      }
+    ]
+  },
+  "appTrackingBanner": {
+    "data": [
+      {
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/7.jpg",
+        "id": 1
+      }
+    ]
+  },
+  "global_settings": {
+    "theme_color": "#902634",
+    "brand_logo_url": "https://cdn.shopify.com/s/files/1/0591/6888/2858/files/logo_1_360x.png?v=1628654119",
+    "splash_screen_url": null,
+    "google_play_store_icon_url": null,
+    "app_store_url": "https://apps.apple.com/in/app/whatsapp-messenger/id310633997",
+    "play_store_url": "https://play.google.com/store/apps/details?id=com.whatsapp",
+    "app_layout_type": "Square",
+    "plan_id": 2,
+    "plan": "PREMIUM",
+    "plan_exp_date": "2026-02-18",
+    "app_update": "Compulsory"
+  },
+  "return_policy": {
+    "return_enable": "true",
+    "return_visibility_days": "7"
+  },
+  "colors": {
+    "theme_color": "#E2D8E1",
+    "full_button_text_color": "#FFFFFF",
+    "full_button_bg_color": "#000000",
+    "boundary_button_bg_color": "#FFFFFF",
+    "boundary_button_text_color": "#000000",
+    "boundary_button_border_color": "#000000",
+    "full_button_type": "rectangle",
+    "boundary_button_type": "rectangle",
+    "navigation_bg_color": "#FFFFFF",
+    "navigation_text_color": "#000000",
+    "item_added_alert_bg_color": "#E2D8E1",
+    "item_added_alert_text_color": "#000000",
+    "alert_text_color": "#000000",
+    "alert_bg_color": "#00000080"
+  },
+  "YotpoProd": {
+    "grant_type": "client_credentials",
+    "client_id": "CWahozeIn44XSUh0j4WXcyXWCflj15bFMMHZGbga",
+    "client_secret": "qXLuUEICFyVjhAPp1YEflmmtNYZnQfjWSIRiLtoI"
+  },
+  "Yotpo": {
+    "grant_type": "client_credentials",
+    "client_id": "V0f8kH7sfcfuNg3S50CfJtVV37jN7HOLYToWSVf5",
+    "client_secret": "bAsaRDLbd69aAiT9J2hx8oGNXddHuOIYM2mYp2uy"
+  },
+  "cms_contents": [
+    {
+      "handle": "privacypolicy",
+      "title": "Privacy Policy",
+      "id": 1,
+      "Page_url": "https://lifeinlilac.com/pages/privacy-policy"
+    },
+    {
+      "handle": "termsofuse",
+      "title": "Terms of Service",
+      "id": 1,
+      "Page_url": "https://lifeinlilac.com/pages/terms-of-use"
+    },
+    {
+      "handle": "shippingreturns",
+      "title": "Shipping Policy",
+      "id": 1,
+      "Page_url": "https://lifeinlilac.com/pages/shipping-returns"
+    },
+    {
+      "handle": "ABOUT",
+      "title": "About Us",
+      "id": 1,
+      "Page_url": "https://lifeinlilac.com/pages/about"
+    }
+  ],
+  "currency": {
+    "Symbol": "$",
+    "Type": "USD"
+  },
+  "return_reasons": [
+    {
+      "reason_code": "1",
+      "reason_title": "I don't like it"
+    },
+    {
+      "reason_code": "2",
+      "reason_title": "Item didn't fit"
+    },
+    {
+      "reason_code": "3",
+      "reason_title": "I don't like color it"
+    },
+    {
+      "reason_code": "4",
+      "reason_title": "I did not receive in time"
+    },
+    {
+      "reason_code": "5",
+      "reason_title": "No Reason"
+    },
+    {
+      "reason_code": "6",
+      "reason_title": "Uncomfortable"
+    }
+  ],
+  "ShipProtection": {
+    "add_shipping_protection_by_default": "1",
+    "ProductId": "41747954106538",
+    "Price": "1.95",
+    "Text": "Shipping Protection from Damage, Loss & Theft for $1.95",
+    "Image": "https://cdn.shopify.com/s/files/1/0591/6888/2858/products/simply-insurance_200x.png?v=1637215536"
+  },
+  "SortCollection": [
+    {
+      "id": 1,
+      "platform_collection_id": "278527115434",
+      "title": "Featured Products"
+    },
+    {
+      "id": 2,
+      "platform_collection_id": "278375432362",
+      "title": "Related"
+    },
+    {
+      "id": 3,
+      "platform_collection_id": "287578292394",
+      "title": "Best Reviewed"
+    }
+  ],
+  "WELCOME_BANNER": {
+    "data": [
+      {
+        "id": 1,
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/1.jpeg"
+      },
+      {
+        "id": 2,
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/2.jpeg"
+      },
+      {
+        "id": 3,
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/3.jpeg"
+      },
+      {
+        "id": 4,
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/4.jpeg"
+      }
+    ]
+  },
+  "menu": {
+    "items": [
+      {
+        "id": 136,
+        "platform_collection_id": "1111",
+        "platform_product_id": "7700445823146",
+        "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/forever-in-bloom.jpg",
+        "title": "Forever In Bloom Bundle",
+        "page_url": "product.org.com"
+      },
+      {
+        "id": 137,
+        "platform_collection_id": "278616342698",
+        "platform_product_id": "2222",
+        "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/shop-all.jpg",
+        "title": "SHOP ALL",
+        "page_url": "shopproducts.url"
+      },
+      {
+        "id": 138,
+        "platform_collection_id": "292710678698",
+        "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/perfume.jpg",
+        "title": "PERFUME",
+        "page_url": "newcollection.url",
+        "platform_product_id": "3333"
+      },
+      {
+        "id": 139,
+        "platform_collection_id": "676456564",
+        "platform_product_id": "4444",
+        "image_url": "http.king.oraganistion.jpeg",
+        "title": "New Products",
+        "page_url": "theme.collection.url"
+      }
+    ]
+  },
+  "CollectionLists": {
+    "items": [
+      {
+        "id": 138,
+        "platform_collection_id": "274247614634",
+        "image_url": "https://cdn.shopify.com/s/files/1/0632/6268/7472/collections/sample_collection.png?v=1648537671",
+        "title": "Shop Candles"
+      },
+      {
+        "id": 140,
+        "platform_collection_id": "276667302058",
+        "image_url": "https://cdn.shopify.com/s/files/1/0632/6268/7472/collections/dried_bouquet.jpg?v=1648537729",
+        "title": "Shop Accessories"
+      }
+    ]
+  },
+  "shop_properties": {
+    "shop_domain": "life-in-lilac-store.myshopify.com",
+    "storefront_access_key": "534dfae39b634540b652b417720c3109",
+    "platform_api_key": "e79c5b630d40648676db5f9b84e37fe1",
+    "admin_access_key": "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",
+    "graphql_version": "2021-04"
+  },
+  "home_screen_settings": [
+    {
+      "title": "HOME",
+      "data": [
+        {
+          "layout_type": "ANNOUNCEMENT_BAR",
+          "title": null,
+          "data": {
+            "announcement": {
+              "announcement_title": "Special Christmas Offers upto 25% OFF",
+              "start_date_time": "2022-02-25",
+              "end_date_time": "2030-02-28",
+              "text_color": "#000000",
+              "background_color": "#e0d3de",
+              "announcement_description": null,
+              "message_text": "FREE SHIPPING ON ORDERS $50 OR MORE",
+              "message_text_mobile": "FREE SHIPPING ON ALL ORDERS <br> AND BUY MORE SAVE MORE. <u><a href=\"/pages/offer\">LEARN MORE</a></u>",
+              "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/welcome/w1.jpeg",
+              "platform_collection_id": "284987261098",
+              "platform_product_id": null,
+              "is_collection": true,
+              "is_product": false,
+              "title": "Buy More Save More"
+            }
+          }
+        },
+        {
+          "layout_type": "ROTATING_IMAGE_SLIDER",
+          "aspect_ratio": "1.2",
+          "data": {
+            "image_slider": [
+              {
+                "id": 61,
+                "platform_collection_id": "278616342698",
+                "platform_product_id": null,
+                "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/welcome/8.png",
+                "is_collection": true,
+                "is_product": false,
+                "title": "ALL"
+              }
+            ]
+          }
+        },
+        {
+          "layout_type": "COLLECTION_SLIDER",
+          "title": "SHOP BY CATEGORY",
+          "data": {
+            "collections": [
+              {
+                "id": 138,
+                "platform_collection_id": "274247614634",
+                "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/candles.jpg",
+                "title": "CANDLES",
+                "default_title": "SHOP CANDLES"
+              },
+              {
+                "id": 140,
+                "platform_collection_id": "276667302058",
+                "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/ACCESSORIES-2.jpg",
+                "title": "Shop Accessories",
+                "default_title": "ACCESSORIES"
+              },
+              {
+                "id": 139,
+                "platform_collection_id": "274247647402",
+                "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/shop-diffuser.jpg",
+                "title": "Shop Diffusers",
+                "default_title": "DIFFUSERS"
+              },
+              {
+                "id": 141,
+                "platform_collection_id": "285241245866",
+                "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/apparel.jpg",
+                "title": "APPAREL",
+                "default_title": "APPAREL"
+              }
+            ]
+          }
+        },
+        {
+          "layout_type": "ROTATING_IMAGE_SLIDER",
+          "aspect_ratio": "1.2",
+          "data": {
+            "image_slider": [
+              {
+                "id": 62,
+                "platform_collection_id": "297117352106",
+                "platform_product_id": null,
+                "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/krista_horton.png",
+                "is_collection": true,
+                "is_product": false,
+                "title": "Krista Horton Collection"
+              }
+            ]
+          }
+        },
+        {
+          "layout_type": "PRODUCT_GRID",
+          "title": "BUY MORE SAVE MORE",
+          "collection_id": "284987261098"
+        },
+        {
+          "layout_type": "IMAGE_BANNER",
+          "aspect_ratio": "1.2",
+          "data": {
+            "image_banner": {
+              "id": 11,
+              "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/welcome/feature.jpeg"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "title": "BUY MORE, SAVE MORE",
+      "data": [
+        {
+          "layout_type": "IMAGE_BANNER",
+          "aspect_ratio": "1.48",
+          "data": {
+            "image_banner": {
+              "id": 11,
+              "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/welcome/w1.jpeg",
+              "platform_collection_id": "284987261098",
+              "platform_product_id": null,
+              "is_collection": true,
+              "is_product": false,
+              "title": "Buy More Save More"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "buy_more_save_more": {
+    "Rules": [
+      {
+        "product_min_count": 1,
+        "product_max_count": 10,
+        "free_shipping": false,
+        "discount_percentage": 10,
+        "message": "Add XX more item to earn 10% discount with free shipping.",
+        "applied_msg": "You earned free shipping. "
+      },
+      {
+        "product_min_count": 3,
+        "product_max_count": 10,
+        "free_shipping": false,
+        "discount_percentage": 10,
+        "message": "Add XX more item to earn 15% discount with free shipping.",
+        "applied_msg": "You earned 10% discount and free shipping."
+      },
+      {
+        "product_min_count": 4,
+        "product_max_count": 10,
+        "free_shipping": false,
+        "discount_percentage": 15,
+        "message": "Add XX more item to earn 25% discount and free shipping.",
+        "applied_msg": "You earned 15% discount and free shipping"
+      },
+      {
+        "product_min_count": 6,
+        "product_max_count": 10,
+        "free_shipping": false,
+        "discount_percentage": 25,
+        "message": "Good Products Soon",
+        "applied_msg": "You earned 25% discount and free shipping."
+      },
+      {
+        "product_min_count": 2,
+        "product_max_count": 10,
+        "free_shipping": false,
+        "discount_percentage": 18,
+        "message": "Summer Sale Products",
+        "applied_msg": "You will get 18% discount"
+      },
+      {
+        "product_min_count": 5,
+        "product_max_count": 25,
+        "free_shipping": false,
+        "discount_percentage": 25,
+        "message": "New Year Sale",
+        "applied_msg": "you will get 25% discount on purchasing"
+      }
+    ],
+    "exclude_tags": [
+      "nike",
+      "best",
+      "bag"
+    ],
+    "additional_notes_for_display": ""
+  },
+  "NEXTOff": "If Customer have NextOff tag Customer will get 50% on Products Contains tag specificitem",
+  "NextOff20": "If Customer have NextOff20 tag Customer will get 20% on Products Contains tag specificitem"
+}

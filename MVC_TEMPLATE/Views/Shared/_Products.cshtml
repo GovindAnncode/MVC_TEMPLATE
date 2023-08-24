@@ -1,0 +1,197 @@
+﻿<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include Swiper JS -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@*<script src="@Url.Content("~/Scripts/File.js")"></script>*@
+
+<style>
+    .product-container {
+        padding: 15px;
+        width: 90%;
+        border: 1px solid black;
+        display: flex flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .image-container {
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.2);
+        }
+
+        .image-container .prev-btn,
+        .image-container .next-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 30px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+        }
+
+        .image-container .prev-btn {
+            left: 0;
+        }
+
+        .image-container .next-btn {
+            right: 0;
+        }
+
+    .primary-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .product-checkbox:checked ~ .checkmark {
+        background-color: #007bff;
+        border: 1px solid #007bff;
+    }
+
+    .product-checkbox {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        /* Additional styling here */
+    }
+</style>
+
+<div style="display:grid;grid-template-columns:repeat(4, 1fr);grid-gap:1em;">
+    @foreach (var product in Model)
+    {
+        <div class="product-container">
+            <div class="image-container">
+                @foreach (var image in product.Images)
+                {
+                    <img src="@image" alt="Product Image" />
+                }
+                <div class="prev-btn">&lt;</div>
+                <div class="next-btn">&gt;</div>
+            </div>
+            <h6 id="pId">Id-@product.ProductId</h6>
+            <h4 id="ptitle">@product.Title</h4>
+            <h4 id="createdat">@product.CreatedAt</h4>
+
+            <div style="word-wrap: break-word;">@Html.Raw(product.Description)</div>
+            <input type="checkbox" class="product-checkbox" value="@product.ProductId" data-title="@product.Title" data-createdat="@product.CreatedAt" />
+        </div>
+    }
+
+</div>
+<button id="saveButton" class="primary-button" style="margin-top: 5px;">Save</button>
+
+<script>
+
+    $(document).ready(function () {
+        $(".image-container").each(function () {
+            var container = $(this);
+            var images = container.find("img");
+            var currentIndex = 0;
+
+            // Show the first image
+            images.eq(currentIndex).show();
+
+            // Attach click event to the previous button
+            container.find(".prev-btn").click(function () {
+                images.eq(currentIndex).hide();
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                images.eq(currentIndex).show();
+            });
+
+            // Attach click event to the next button
+            container.find(".next-btn").click(function () {
+                images.eq(currentIndex).hide();
+                currentIndex = (currentIndex + 1) % images.length;
+                images.eq(currentIndex).show();
+            });
+        });
+
+        var selectedProducts = []; // Array to store selected product data
+
+        // Event listener for checkbox changes
+        $(".product-checkbox").change(function () {
+            var checkbox = $(this);
+            var isChecked = checkbox.is(":checked");
+
+            // Retrieve data attributes
+            var productId = checkbox.val();
+            var title = checkbox.data("title");
+            var createdAt = checkbox.data("createdat");
+
+            // Create an object with the retrieved data
+            var productData = {
+                productId: productId,
+                Product_title: title,
+                CreatedOn: createdAt
+            };
+
+            // If checkbox is checked, add data to selectedProducts array
+            if (isChecked) {
+                selectedProducts.push(productData);
+                //console.log(selectedProducts);
+            } else {
+                // If checkbox is unchecked, remove data from selectedProducts array
+                var index = selectedProducts.findIndex(function (product) {
+                    return product.productId === productId;
+                });
+                if (index !== -1) {
+                    selectedProducts.splice(index, 1);
+                }
+            }
+         });
+            
+        //console.log(selectedProducts);
+        $("#saveButton").click(function () {
+            console.log(selectedProducts)
+            data = JSON.stringify(selectedProducts);
+            console.log(data);
+            $.ajax({
+                 type: "POST",
+                 url: "/Home/SaveSelectedProductsAsync",
+                 data: data, // Wrap the data in an object
+                 contentType: "application/json",
+                 dataType: "json",
+                 success: function (response) {
+                 if (response.success) {
+                    alert("Selected products saved successfully!");
+                 } else {
+                    alert("Failed to save selected products.");
+                 }
+                },
+               error: function () {
+                 alert("An error occurred while saving selected products.");
+                     }
+              });
+
+        });
+
+    });
+
+</script>
+
+
+
+
+          
