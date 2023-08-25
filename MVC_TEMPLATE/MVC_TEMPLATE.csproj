@@ -175,11 +175,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Colors.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\NewMenuItemData.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\Rules.cs" />
     <Compile Include="Models\selectProductModel.cs" />
+    <Compile Include="Models\Welcome_Banner.cs" />
     <Compile Include="MyModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -4654,6 +4656,8 @@
     <Content Include="Views\Home\Menu.cshtml" />
     <Content Include="Views\Home\AddMenu.cshtml" />
     <Content Include="Views\Home\Rules.cshtml" />
+    <Content Include="Views\Home\Welcome_Banner.cshtml" />
+    <Content Include="Views\Home\GetColors.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -46,7 +46,8 @@
     "item_added_alert_bg_color": "#E2D8E1",
     "item_added_alert_text_color": "#000000",
     "alert_text_color": "#000000",
-    "alert_bg_color": "#00000080"
+    "alert_bg_color": "#00000080",
+    "zeeshan": "Govind"
   },
   "YotpoProd": {
     "grant_type": "client_credentials",
@@ -141,20 +142,24 @@
   "WELCOME_BANNER": {
     "data": [
       {
-        "id": 1,
+        "id": 11,
         "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/1.jpeg"
       },
       {
-        "id": 2,
-        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/2.jpeg"
-      },
-      {
-        "id": 3,
+        "id": 13,
         "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/3.jpeg"
       },
       {
-        "id": 4,
+        "id": 14,
         "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/4.jpeg"
+      },
+      {
+        "id": 15,
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/4.jpeg"
+      },
+      {
+        "id": 12,
+        "banner_image_url": "http.response.org.url"
       }
     ]
   },
@@ -162,7 +167,7 @@
     "items": [
       {
         "id": 137,
-        "platform_collection_id": "278616342698",
+        "platform_collection_id": "1234567",
         "platform_product_id": "2222",
         "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/shop-all.jpg",
         "title": "SHOP ALL",
@@ -170,7 +175,7 @@
       },
       {
         "id": 138,
-        "platform_collection_id": "292710678698",
+        "platform_collection_id": "1234567",
         "platform_product_id": "3333",
         "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/perfume.jpg",
         "title": "PERFUME",
@@ -178,7 +183,7 @@
       },
       {
         "id": 139,
-        "platform_collection_id": "676456564",
+        "platform_collection_id": "1234567",
         "platform_product_id": "4444",
         "image_url": "http.king.oraganistion.jpeg",
         "title": "New Products",
@@ -189,8 +194,16 @@
         "platform_collection_id": "1234567",
         "platform_product_id": "6666",
         "image_url": "neworg.com.jpeg",
-        "title": "New Hair Product",
+        "title": "New Hair Products",
         "page_url": "newhomescolllection/tshirt"
+      },
+      {
+        "id": 140,
+        "platform_collection_id": "564565564",
+        "platform_product_id": "5555",
+        "image_url": "newcollection.org.jpeg",
+        "title": "New Collection",
+        "page_url": "newhomescolllection/tshirt.collection"
       }
     ]
   },

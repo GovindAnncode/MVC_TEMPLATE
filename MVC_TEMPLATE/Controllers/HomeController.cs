@@ -46,7 +46,7 @@ namespace MVC_TEMPLATE.Controllers
                     image_url = (string)itemData["image_url"],
                     title = (string)itemData["title"],
                     page_url = (string)itemData["page_url"]
-                    // Add other properties here in the same pattern
+                   
                 };
 
                 itemsList.Add(item);
@@ -182,6 +182,86 @@ namespace MVC_TEMPLATE.Controllers
             return RedirectToAction("Rules", "Home");
         }
 
+        public ActionResult Welcome_Banner()
+        {
+            string jsonFilePath = Server.MapPath("~//jsconfig.json"); // Path to your json file
+
+            string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+            dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
+
+            List<Welcome_Banner> itemsList = new List<Welcome_Banner>();
+
+            foreach (var itemData in jsonObject.WELCOME_BANNER["data"])
+            {
+                Welcome_Banner item = new Welcome_Banner()
+                {
+                    id = (int)itemData["id"],
+                    banner_image_url = (string)itemData["banner_image_url"],
+                   
+                };
+
+                itemsList.Add(item);
+            }
+
+            return View(itemsList);
+        }
+
+        [HttpPost]
+        public ActionResult AddUpdateWelcomeBanner(List<Welcome_Banner> newData)
+        {
+            string jsonFilePath = Server.MapPath("~//jsconfig.json");
+            string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+            dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
+
+            jsonObject.WELCOME_BANNER.data = JArray.FromObject(newData);
+            string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+            System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
+            return RedirectToAction("Welcome_Banner", "Home");
+        }
+
+        [HttpPost]
+        public ActionResult DeleteWelcomeBanner(Welcome_Banner newData)
+        {
+            string jsonFilePath = Server.MapPath("~//jsconfig.json");
+            string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+            dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
+
+            JArray rulesArray = jsonObject.WELCOME_BANNER["data"];
+
+            for (int i = 0; i < rulesArray.Count; i++)
+            {
+                dynamic rule = rulesArray[i];
+
+                if ((int)rule["id"] == newData.id &&
+                    (string)rule["banner_image_url"] == newData.banner_image_url)
+                {
+                    rulesArray.RemoveAt(i);
+                    break;
+                }
+            }
+
+            string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+            System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
+
+            return RedirectToAction("Welcome_Banner", "Home");
+        }
+
+        public ActionResult GetColors()
+        {
+            string jsonFilePath = Server.MapPath("~//jsconfig.json");
+            string jsonContent = System.IO.File.ReadAllText(jsonFilePath);
+
+            JObject jsonObject = JObject.Parse(jsonContent);
+            JObject colorsObject = jsonObject["colors"].ToObject<JObject>(); 
+
+            Dictionary<string, string> colorData = new Dictionary<string, string>();
+            foreach (var property in colorsObject.Properties())
+            {
+                colorData.Add(property.Name, property.Value.ToString());
+            }
+
+            return View(colorData);
+        }
 
         public async Task<ActionResult> Products()
         {
@@ -222,5 +302,8 @@ namespace MVC_TEMPLATE.Controllers
             }
             return Json(new { success = true });
         }
+
     }
 }
+
+
