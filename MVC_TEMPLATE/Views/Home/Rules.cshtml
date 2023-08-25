@@ -306,7 +306,7 @@
 
                                         <div class="ln_solid"></div>
                                     </form>
-                                    <button class="btn btn-danger delete-section-button" data-min_count="@item.product_min_count">Delete Section</button>
+                                    <button class="btn btn-danger delete-section-button" data-min_count="@item.product_min_count" data-max_count="@item.product_max_count" data-shipping="@item.free_shipping" data-discount="@item.discount_percentage" data-appliedmsg="@item.applied_msg" data-message="@item.message">Delete Section</button>
                                 </div>
                                 count++;
                             }
@@ -359,15 +359,15 @@
 
     <script>
         $(document).ready(function () {
-            var RulesData = []; // Array to store section data
-            var sectionCount = @Model.Count(); // Get the initial section count from your model
+            var RulesData = []; 
+            var sectionCount = @Model.Count(); 
             var sectionsContainer = $("#sections-container");
             $(".save-section-button").click(function () {
                 $.each($(".section"), function () {
 
                     var freeShippingValue = $(this).find("#shipping").val() === "1"; // Convert string to boolean
 
-                    var Rules = {
+                    var RuleData = {
                         product_min_count: $(this).find("#min_count").val(),
                         product_max_count: $(this).find("#max_count").val(),
                         free_shipping: freeShippingValue,
@@ -375,12 +375,11 @@
                         message: $(this).find("#message").val(),
                         applied_msg: $(this).find("#appliedmsg").val()
                     };
-
-                    RulesData.push(Rules);
+                    RulesData.push(RuleData);
                 });
                 console.log(RulesData);
                 $.ajax({
-                    url: '/Home/AddUpdateRules', // Update this URL to match your controller action
+                    url: '/Home/AddUpdateRules', 
                     type: 'POST',
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
@@ -469,20 +468,37 @@
 
                                     <div class="ln_solid"></div>
                                 </form>
-                               <button class="btn btn-danger delete-section-button">Delete Section</button>
+                              
               </div>
              `;
                 sectionsContainer.append(newSection);
             }
             $(".delete-section-button").click(function () {
-                var sectionId = $(this).data("min_count");
-                console.log(sectionId);
+               // var freeShippingValue = $(this).find("#shipping").val() === "1";
+                var productMinCount = $(this).data("min_count");
+                var productMaxCount = $(this).data("max_count");
+                var freeShippingValue = $(this).data("shipping");
+                var discountPercentage = $(this).data("discount");
+                var message = $(this).data("message");
+                var appliedMsg = $(this).data("appliedmsg");
+
+                var RuleData = {
+                    product_min_count: productMinCount,
+                    product_max_count: productMaxCount,
+                    free_shipping: freeShippingValue,
+                    discount_percentage: discountPercentage,
+                    message: message,
+                    applied_msg: appliedMsg
+                };
+
+               
+                console.log(RuleData);
                 $.ajax({
                     url: '/Home/DeleteRule',
                     type: 'POST',
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    data: JSON.stringify({ sectionId: sectionId }),
+                    data: JSON.stringify({ newData: RuleData }),
 
                 });
             });

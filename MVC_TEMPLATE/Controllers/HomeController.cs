@@ -15,7 +15,6 @@ namespace MVC_TEMPLATE.Controllers
         private readonly ShopifyService _shopifyService;
         public HomeController()
         {
-            // Replace with your actual Shopify API credentials and store URL
             string shopifyApiKey = "9873ff53960ffe9567a56d407c5193d7";
             string shopifyPassword = "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";
             string shopifyStoreUrl = "quickstart-4c72b137.myshopify.com";
@@ -41,13 +40,13 @@ namespace MVC_TEMPLATE.Controllers
             {
                 MenuItems item = new MenuItems()
                 {
-
                     id = (int)itemData["id"],
                     platform_collection_id = (string)itemData["platform_collection_id"],
                     platform_product_id = (string)itemData["platform_product_id"],
                     image_url = (string)itemData["image_url"],
                     title = (string)itemData["title"],
                     page_url = (string)itemData["page_url"]
+                    // Add other properties here in the same pattern
                 };
 
                 itemsList.Add(item);
@@ -55,6 +54,7 @@ namespace MVC_TEMPLATE.Controllers
 
             return View(itemsList);
         }
+
 
         public ActionResult AddMenu()
         {
@@ -68,77 +68,48 @@ namespace MVC_TEMPLATE.Controllers
             string jsonData = System.IO.File.ReadAllText(jsonFilePath);
             dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
-            foreach (var newItemData in newItem)
-            {
-                bool itemExists = false;
 
-                foreach (var itemData in jsonObject.menu["items"])
-                {
-                    if ((int)itemData["id"] == newItemData.id)
-                    {
-                        itemData["platform_collection_id"] = newItemData.platform_collection_id;
-                        itemData["platform_product_id"] = newItemData.platform_product_id;
-                        itemData["image_url"] = newItemData.image_url;
-                        itemData["title"] = newItemData.title;
-                        itemData["page_url"] = newItemData.page_url;
-                        // Update other fields
-                        itemExists = true;
-                        break;
-                    }
-                }
-
-                if (!itemExists)
-                {
-                    // Create a new item and add it to the "items" array
-                    var newItemObject = new MenuItems
-                    {
-                        id = newItemData.id,
-                        platform_collection_id = newItemData.platform_collection_id,
-                        platform_product_id = newItemData.platform_product_id,
-                        image_url = newItemData.image_url,
-                        title = newItemData.title,
-                        page_url = newItemData.page_url
-                        // Add other fields
-                    };
-
-                    jsonObject.menu["items"].Add(JObject.FromObject(newItemData));
-                }
-            }
-
-            // Serialize the updated JSON object and write it back to the file
+            jsonObject.menu.items = JArray.FromObject(newItem);
             string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
             System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
 
-            return RedirectToAction("Menu", "Home");
+            return RedirectToAction("Menu","Home");
         }
 
         [HttpPost]
-        public ActionResult DeleteSection(int sectionId)
+        public ActionResult DeleteSection(MenuItems newData)
         {
             string jsonFilePath = Server.MapPath("~//jsconfig.json");
             string jsonData = System.IO.File.ReadAllText(jsonFilePath);
             dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
-            // Find and remove the section with the specified ID
-            for (int i = 0; i < jsonObject.menu["items"].Count; i++)
+            JArray rulesArray = jsonObject.menu["items"];
+
+            for (int i = 0; i < rulesArray.Count; i++)
             {
-                if ((int)jsonObject.menu["items"][i]["id"] == sectionId)
+                dynamic rule = rulesArray[i];
+
+                if ((int)rule["id"] == newData.id &&
+                    (string)rule["platform_collection_id"] == newData.platform_collection_id &&
+                    (string)rule["platform_product_id"] == newData.platform_product_id &&
+                    (string)rule["image_url"] == newData.image_url &&
+                    (string)rule["title"] == newData.title &&
+                    (string)rule["page_url"] == newData.page_url)
                 {
-                    jsonObject.menu["items"].RemoveAt(i);
+                    rulesArray.RemoveAt(i);
                     break;
                 }
             }
 
-            // Serialize the updated JSON object and write it back to the file
             string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
             System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
 
-            return RedirectToAction("Menu", "Home");
+            return RedirectToAction("Rules", "Home");
         }
 
         public ActionResult Rules()
         {
-            string jsonFilePath = Server.MapPath("~//jsconfig.json"); // Path to your json file
+            string jsonFilePath = Server.MapPath("~//jsconfig.json"); 
 
             string jsonData = System.IO.File.ReadAllText(jsonFilePath);
             dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
@@ -170,10 +141,8 @@ namespace MVC_TEMPLATE.Controllers
             string jsonData = System.IO.File.ReadAllText(jsonFilePath);
             dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
-            // Update the "Rules" section
+           
             jsonObject.buy_more_save_more.Rules = JArray.FromObject(newItem);
-
-            // Serialize the updated JSON object and write it back to the file
             string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
             System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
 
@@ -183,28 +152,36 @@ namespace MVC_TEMPLATE.Controllers
 
 
         [HttpPost]
-        public ActionResult DeleteRule(int sectionId)
+        public ActionResult DeleteRule(Rules newData)
         {
             string jsonFilePath = Server.MapPath("~//jsconfig.json");
             string jsonData = System.IO.File.ReadAllText(jsonFilePath);
             dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
-            // Find and remove the section with the specified ID
-            for (int i = 0; i < jsonObject.buy_more_save_more["Rules"].Count; i++)
+            JArray rulesArray = jsonObject.buy_more_save_more["Rules"];
+
+            for (int i = 0; i < rulesArray.Count; i++)
             {
-                if ((int)jsonObject.buy_more_save_more["Rules"][i]["product_min_count"] == sectionId)
+                dynamic rule = rulesArray[i];
+
+                if ((int)rule["product_min_count"] == newData.product_min_count &&
+                    (int)rule["product_max_count"] == newData.product_max_count &&
+                    (bool)rule["free_shipping"] == newData.free_shipping &&
+                    (int)rule["discount_percentage"] == newData.discount_percentage &&
+                    (string)rule["message"] == newData.message &&
+                    (string)rule["applied_msg"] == newData.applied_msg)
                 {
-                    jsonObject.buy_more_save_more["Rules"].RemoveAt(i);
+                    rulesArray.RemoveAt(i);
                     break;
                 }
             }
 
-            // Serialize the updated JSON object and write it back to the file
             string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
             System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
 
             return RedirectToAction("Rules", "Home");
         }
+
 
         public async Task<ActionResult> Products()
         {
@@ -236,7 +213,7 @@ namespace MVC_TEMPLATE.Controllers
                         ProductId = product.ProductId,
                         Product_Title = product.Product_Title,
                         CreatedOn = product.CreatedOn.ToString(),
-                        ShopId = shopId // Associate the ShopId with the selected product
+                        ShopId = shopId 
                     };
 
                     dbContext.tbSelectedProducts.Add(selectedProduct);

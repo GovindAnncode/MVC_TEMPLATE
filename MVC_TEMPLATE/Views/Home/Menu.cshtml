@@ -273,7 +273,7 @@
                                             ID <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="number" id="Id" value="@item.id" required="required" class="form-control" readonly>
+                                            <input type="number" id="Id" value="@item.id" required="required" class="form-control">
                                         </div>
                                     </div>
                                     <div class="item form-group">
@@ -281,14 +281,14 @@
                                             Platform Collection Id <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="platformCollectionId" name="platform_collection" value="@item.platform_collection_id" required="required" class="form-control">
+                                            <input type="text" id="collectionid" name="platform_collection" value="@item.platform_collection_id" required="required" class="form-control">
                                         </div>
                                     </div>
 
                                     <div class="item form-group">
                                         <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Platform Product ID</label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input id="platformProductId" class="form-control" type="text" name="product_Id" value="@item.platform_product_id">
+                                            <input id="productid" class="form-control" type="text" name="product_Id" value="@item.platform_product_id">
                                         </div>
                                     </div>
 
@@ -319,7 +319,7 @@
 
                                     <div class="ln_solid"></div>
                                 </form>
-                                <button class="btn btn-danger delete-section-button" data-id="@item.id">Delete Section</button>
+                                <button class="btn btn-danger delete-section-button" data-id="@item.id" data-image-upload="@item.image_url" data-title="@item.title" data-page-url="@item.page_url" data-productid="@item.platform_product_id" data-collectionid="@item.platform_collection_id" >Delete Section</button>
                             </div>
                             count++;
                         }
@@ -380,8 +380,8 @@
                 $.each($(".section"), function () {
                     var section = {
                         Id: $(this).find("#Id").val(),
-                        platform_collection_id: $(this).find("#platformCollectionId").val(),
-                        platform_product_id: $(this).find("#platformProductId").val(),
+                        platform_collection_id: $(this).find("#collectionid").val(),
+                        platform_product_id: $(this).find("#productid").val(),
                         image_url: $(this).find("#image-upload").val(),
                         title: $(this).find("#title").val(),
                         page_url: $(this).find("#page-url").val()
@@ -391,7 +391,7 @@
                 });
                 console.log(sectionData);
                 $.ajax({
-                    url: '/Home/AddUpdateMenu', // Update this URL to match your controller action
+                    url: '/Home/AddUpdateMenu', 
                     type: 'POST',
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
@@ -442,14 +442,14 @@
                                             Platform Collection Id <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="platformCollectionId" name="platform_collection" required="required" class="form-control">
+                                            <input type="text" id="collectionid" name="platform_collection" required="required" class="form-control">
                                         </div>
                                     </div>
 
                                     <div class="item form-group">
                                         <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Platform Product ID</label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input id="platformProductId" class="form-control" type="text" name="product_Id">
+                                            <input id="productid" class="form-control" type="text" name="product_Id">
                                         </div>
                                     </div>
 
@@ -486,14 +486,23 @@
                 sectionsContainer.append(newSection);
             }
             $(".delete-section-button").click(function () {
-                var sectionId = $(this).data("id");
-
+               
+                var MenuData = {
+                    id: $(this).data("id"),
+                    platform_collection_id: $(this).data("collectionid"),
+                    platform_product_id: $(this).data("productid"),
+                    image_url: $(this).data("image-upload"),
+                    title: $(this).data("title"),
+                    page_url: $(this).data("page-url")
+                };
+                console.log(MenuData);
+                var data = JSON.stringify(MenuData);
                 $.ajax({
                     url: '/Home/DeleteSection',
                     type: 'POST',
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json',
-                    data: JSON.stringify({ sectionId: sectionId }),
+                    data: data,
 
                 });
             });
