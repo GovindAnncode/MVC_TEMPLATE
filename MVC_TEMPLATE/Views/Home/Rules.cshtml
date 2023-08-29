@@ -377,8 +377,9 @@
                         return false; 
                     }
                     var maxCountValue = $(this).find("#max_count").val();
-                    if (maxCountValue <= 1) {
-                        alertify.alert("Product Max Count must be greater than 1 for all sections.");
+                  
+                    if (maxCountValue <= minCountValue) {
+                        alertify.alert("Product Max Count must be greater than Min Count for all sections.");
                         isFormValid = false;
                         return false;
                     }

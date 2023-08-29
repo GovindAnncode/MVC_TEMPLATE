@@ -29,7 +29,7 @@ namespace MVC_TEMPLATE.Controllers
 
         public ActionResult Menu()
         {
-            string jsonFilePath = Server.MapPath("~//jsconfig.json"); // Path to your json file
+            string jsonFilePath = Server.MapPath("~//jsconfig.json"); 
 
             string jsonData = System.IO.File.ReadAllText(jsonFilePath);
             dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);

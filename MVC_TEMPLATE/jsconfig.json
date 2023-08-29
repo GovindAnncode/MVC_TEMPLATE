@@ -427,7 +427,7 @@
       },
       {
         "product_min_count": 2,
-        "product_max_count": 10,
+        "product_max_count": 5,
         "free_shipping": true,
         "discount_percentage": 10,
         "message": "Add minimum 2 product to get discount",
