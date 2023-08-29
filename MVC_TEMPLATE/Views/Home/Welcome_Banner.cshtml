@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/ViewPage1.cshtml";
 }
 @{
-    int count = 1; // Initialize a count variable
+    int count = 1;
 }
 
 <!DOCTYPE html>
@@ -273,20 +273,20 @@
                                             ID <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="number" id="Id" value="@item.id" required="required" class="form-control">
+                                            <input type="number" id="Id" value="@item.id" required="required" title="Please enter an ID" class="form-control">
                                         </div>
                                     </div>
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align" for="platformCollectionId">
-                                            Banner Image Url <span class="required">*</span>
+                                            Banner Image Url
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="bannerimg_url" name="platform_collection" value="@item.banner_image_url" required="required" class="form-control">
+                                            <input type="text" id="bannerimg_url" name="platform_collection" value="@item.banner_image_url"  class="form-control">
                                         </div>
                                     </div>
                                     <div class="ln_solid"></div>
                                 </form>
-                                <button class="btn btn-danger delete-section-button" data-id="@item.id"  data-bannerimg_url="@item.banner_image_url">Delete Section</button>
+                                <button class="btn btn-danger delete-section-button" data-id="@item.id" data-bannerimg_url="@item.banner_image_url">Delete Section</button>
                             </div>
                             count++;
                         }
@@ -297,8 +297,6 @@
             </div>
         </div>
     </div>
-    </div>
-
 
     <!-- jQuery -->
     <script src="/MasterTemplate/vendors/jquery/dist/jquery.min.js"></script>
@@ -336,32 +334,57 @@
     <!-- Custom Theme Scripts -->
     <script src="/MasterTemplate/build/js/custom.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Alertify CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css" />
+    <!-- Include Alertify JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
 
 
     <script>
         $(document).ready(function () {
-            var sectionData = []; // Array to store section data
-            var sectionCount = @Model.Count(); // Get the initial section count from your model
+            var sectionData = [];
+            var sectionCount = @Model.Count();
+            
             var sectionsContainer = $("#sections-container");
             $(".save-section-button").click(function () {
+                var isFormValid = true;
                 $.each($(".section"), function () {
-                    var section = {
-                        Id: $(this).find("#Id").val(),
-                        banner_image_url: $(this).find("#bannerimg_url").val(),
-                    };
+                    var Id = $(this).find("#Id").val();
 
-                    sectionData.push(section);
+                    if (!Id || Id <= 0) {
+                        alertify.alert("Please provide a valid ID for all sections.");
+                        isFormValid = false;
+                        return false; 
+                    }
                 });
-                console.log(sectionData);
-                $.ajax({
-                    url: '/Home/AddUpdateWelcomeBanner',
-                    type: 'POST',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    data: JSON.stringify(sectionData),
+                if (isFormValid) {
+                    alertify.confirm("Are you sure you want to save the sections?", function (e) {
+                        if (e) {
+                            $.each($(".section"), function () {
+                                var section = {
+                                    Id: $(this).find("#Id").val(),
+                                    banner_image_url: $(this).find("#bannerimg_url").val(),
+                                };
 
-                });
-            })
+                                sectionData.push(section);
+                            });
+
+                            console.log(sectionData);
+
+                            $.ajax({
+                                url: '/Home/AddUpdateWelcomeBanner',
+                                type: 'POST',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: 'json',
+                                data: JSON.stringify(sectionData),
+                            }).done(function (response) {
+                                location.reload();
+                                alertify.alert("Data saved successfully!");
+                            });
+                        }
+                    }).set('labels', { ok: 'Yes', cancel: 'No' });
+                }
+            });
             function addNewSection() {
                 sectionCount++;
                 var newSection = `
@@ -411,33 +434,48 @@
 
                                     <div class="ln_solid"></div>
                                 </form>
+                                 <button class="btn btn-danger delete-section-button">Delete Section</button>
               </div>
              `;
                 sectionsContainer.append(newSection);
+                $(".delete-section-button").off().on("click", function () {
+                    $(this).closest(".section").remove();
+                    location.reload();
+                });
             }
             $(".delete-section-button").click(function () {
+                var $deleteButton = $(this);
 
-                var BannerData = {
+                alertify.confirm("Are you sure you want to delete the section?", function (e) {
+                    if (e) {
+                        var BannerData = {
+                            id: $deleteButton.data("id"),
+                            banner_image_url: $deleteButton.data("bannerimg_url")
+                        };
 
-                    id: $(this).data("id"),
-                    banner_image_url: $(this).data("bannerimg_url")
-          
-                };
-                console.log(BannerData);
-                var data = JSON.stringify(BannerData);
-                $.ajax({
-                    url: '/Home/DeleteWelcomeBanner',
-                    type: 'POST',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    data: data,
+                        console.log(BannerData);
+                        var data = JSON.stringify(BannerData);
 
-                });
+                        $.ajax({
+                            url: '/Home/DeleteWelcomeBanner',
+                            type: 'POST',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: 'json',
+                            data: data,
+                        }).done(function (response) {
+                            location.reload();
+                            alertify.alert("Data Deleted successfully!");
+                        });
+                    }
+                }).set('labels', { ok: 'Yes', cancel: 'No' });
             });
 
-            // Event handler for the "Create New Section" button
             $("#create-section-btn").click(function () {
-                addNewSection();
+                alertify.confirm("Are you sure you want to create new sections?", function (e) {
+                    if (e) {
+                        addNewSection();
+                    }
+                }).set('labels', { ok: 'Yes', cancel: 'No' });
             });
         })
     </script>

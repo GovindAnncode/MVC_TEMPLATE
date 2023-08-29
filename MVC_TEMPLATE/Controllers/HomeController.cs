@@ -64,49 +64,62 @@ namespace MVC_TEMPLATE.Controllers
         [HttpPost]
         public ActionResult AddUpdateMenu(List<MenuItems> newItem)
         {
-            string jsonFilePath = Server.MapPath("~//jsconfig.json");
-            string jsonData = System.IO.File.ReadAllText(jsonFilePath);
-            dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
+            try
+            {
+                string jsonFilePath = Server.MapPath("~//jsconfig.json");
+                string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+                dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
+                jsonObject.menu.items = JArray.FromObject(newItem);
+                string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+                System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
 
-            jsonObject.menu.items = JArray.FromObject(newItem);
-            string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
-            System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
-
-            return RedirectToAction("Menu","Home");
+                return Json(new { success = true, message = "Data saved successfully." });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error occurred while saving data." });
+            }
         }
+
 
         [HttpPost]
         public ActionResult DeleteSection(MenuItems newData)
         {
-            string jsonFilePath = Server.MapPath("~//jsconfig.json");
-            string jsonData = System.IO.File.ReadAllText(jsonFilePath);
-            dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
-
-            JArray rulesArray = jsonObject.menu["items"];
-
-            for (int i = 0; i < rulesArray.Count; i++)
+            try
             {
-                dynamic rule = rulesArray[i];
+                string jsonFilePath = Server.MapPath("~//jsconfig.json");
+                string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+                dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
-                if ((int)rule["id"] == newData.id &&
-                    (string)rule["platform_collection_id"] == newData.platform_collection_id &&
-                    (string)rule["platform_product_id"] == newData.platform_product_id &&
-                    (string)rule["image_url"] == newData.image_url &&
-                    (string)rule["title"] == newData.title &&
-                    (string)rule["page_url"] == newData.page_url)
+                JArray rulesArray = jsonObject.menu["items"];
+
+                for (int i = 0; i < rulesArray.Count; i++)
                 {
-                    rulesArray.RemoveAt(i);
-                    break;
+                    dynamic rule = rulesArray[i];
+
+                    if ((int)rule["id"] == newData.id &&
+                        (string)rule["platform_collection_id"] == newData.platform_collection_id &&
+                        (string)rule["platform_product_id"] == newData.platform_product_id &&
+                        (string)rule["image_url"] == newData.image_url &&
+                        (string)rule["title"] == newData.title &&
+                        (string)rule["page_url"] == newData.page_url)
+                    {
+                        rulesArray.RemoveAt(i);
+                        break;
+                    }
                 }
+
+                string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+                System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
+
+                return Json(new { success = true, message = "Data deleted successfully." });
             }
-
-            string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
-            System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
-
-            return RedirectToAction("Rules", "Home");
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = "An error occurred while deleting data." });
+            }
         }
-
         public ActionResult Rules()
         {
             string jsonFilePath = Server.MapPath("~//jsconfig.json"); 
@@ -137,54 +150,64 @@ namespace MVC_TEMPLATE.Controllers
         [HttpPost]
         public ActionResult AddUpdateRules(List<Rules> newItem)
         {
-            string jsonFilePath = Server.MapPath("~//jsconfig.json");
-            string jsonData = System.IO.File.ReadAllText(jsonFilePath);
-            dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
+            try
+            {
+                string jsonFilePath = Server.MapPath("~//jsconfig.json");
+                string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+                dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
-           
-            jsonObject.buy_more_save_more.Rules = JArray.FromObject(newItem);
-            string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
-            System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
+                jsonObject.buy_more_save_more.Rules = JArray.FromObject(newItem);
+                string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+                System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
 
-            return RedirectToAction("Rules", "Home");
+                return Json(new { success = true, message = "Data saved successfully." });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error occurred while saving data." });
+            }
         }
-
-
 
         [HttpPost]
         public ActionResult DeleteRule(Rules newData)
         {
-            string jsonFilePath = Server.MapPath("~//jsconfig.json");
-            string jsonData = System.IO.File.ReadAllText(jsonFilePath);
-            dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
-
-            JArray rulesArray = jsonObject.buy_more_save_more["Rules"];
-
-            for (int i = 0; i < rulesArray.Count; i++)
+            try
             {
-                dynamic rule = rulesArray[i];
+                string jsonFilePath = Server.MapPath("~//jsconfig.json");
+                string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+                dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
-                if ((int)rule["product_min_count"] == newData.product_min_count &&
-                    (int)rule["product_max_count"] == newData.product_max_count &&
-                    (bool)rule["free_shipping"] == newData.free_shipping &&
-                    (int)rule["discount_percentage"] == newData.discount_percentage &&
-                    (string)rule["message"] == newData.message &&
-                    (string)rule["applied_msg"] == newData.applied_msg)
+                JArray rulesArray = jsonObject.buy_more_save_more["Rules"];
+
+                for (int i = 0; i < rulesArray.Count; i++)
                 {
-                    rulesArray.RemoveAt(i);
-                    break;
+                    dynamic rule = rulesArray[i];
+
+                    if ((int)rule["product_min_count"] == newData.product_min_count &&
+                        (int)rule["product_max_count"] == newData.product_max_count &&
+                        (bool)rule["free_shipping"] == newData.free_shipping &&
+                        (int)rule["discount_percentage"] == newData.discount_percentage &&
+                        (string)rule["message"] == newData.message &&
+                        (string)rule["applied_msg"] == newData.applied_msg)
+                    {
+                        rulesArray.RemoveAt(i);
+                        break;
+                    }
                 }
+
+                string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+                System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
+
+                return Json(new { success = true, message = "Data deleted successfully." });
             }
-
-            string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
-            System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
-
-            return RedirectToAction("Rules", "Home");
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error occurred while deleting data." });
+            }
         }
-
         public ActionResult Welcome_Banner()
         {
-            string jsonFilePath = Server.MapPath("~//jsconfig.json"); // Path to your json file
+            string jsonFilePath = Server.MapPath("~//jsconfig.json"); 
 
             string jsonData = System.IO.File.ReadAllText(jsonFilePath);
             dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
@@ -209,42 +232,58 @@ namespace MVC_TEMPLATE.Controllers
         [HttpPost]
         public ActionResult AddUpdateWelcomeBanner(List<Welcome_Banner> newData)
         {
-            string jsonFilePath = Server.MapPath("~//jsconfig.json");
-            string jsonData = System.IO.File.ReadAllText(jsonFilePath);
-            dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
+            try
+            {
+                string jsonFilePath = Server.MapPath("~//jsconfig.json");
+                string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+                dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
-            jsonObject.WELCOME_BANNER.data = JArray.FromObject(newData);
-            string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
-            System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
-            return RedirectToAction("Welcome_Banner", "Home");
+                jsonObject.WELCOME_BANNER.data = JArray.FromObject(newData);
+                string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+                System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
+
+                return Json(new { success = true, message = "Data saved successfully." });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error occurred while saving data." });
+            }
         }
 
         [HttpPost]
         public ActionResult DeleteWelcomeBanner(Welcome_Banner newData)
         {
-            string jsonFilePath = Server.MapPath("~//jsconfig.json");
-            string jsonData = System.IO.File.ReadAllText(jsonFilePath);
-            dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
-
-            JArray rulesArray = jsonObject.WELCOME_BANNER["data"];
-
-            for (int i = 0; i < rulesArray.Count; i++)
+            try
             {
-                dynamic rule = rulesArray[i];
+                string jsonFilePath = Server.MapPath("~//jsconfig.json");
+                string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+                dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
-                if ((int)rule["id"] == newData.id &&
-                    (string)rule["banner_image_url"] == newData.banner_image_url)
+                JArray rulesArray = jsonObject.WELCOME_BANNER["data"];
+
+                for (int i = 0; i < rulesArray.Count; i++)
                 {
-                    rulesArray.RemoveAt(i);
-                    break;
+                    dynamic rule = rulesArray[i];
+
+                    if ((int)rule["id"] == newData.id &&
+                        (string)rule["banner_image_url"] == newData.banner_image_url)
+                    {
+                        rulesArray.RemoveAt(i);
+                        break;
+                    }
                 }
+
+                string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+                System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
+
+                return Json(new { success = true, message = "Data deleted successfully." });
             }
-
-            string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
-            System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
-
-            return RedirectToAction("Welcome_Banner", "Home");
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error occurred while deleting data." });
+            }
         }
+
 
         public ActionResult GetColors()
         {
@@ -263,9 +302,38 @@ namespace MVC_TEMPLATE.Controllers
             return View(colorData);
         }
 
+        [HttpPost]
+        public ActionResult SaveColors(List<ColorConfigRequestDto> formData)
+        {
+            string jsonFilePath = Server.MapPath("~//jsconfig.json");
+            string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+
+            dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
+
+            JObject singleColorObject = new JObject();
+            foreach (var colorConfig in formData)
+            {
+                var properties = colorConfig.GetType().GetProperties();
+                foreach (var property in properties)
+                {
+                    var key = property.Name;
+                    var value = property.GetValue(colorConfig);
+                    singleColorObject[key] = JToken.FromObject(value);
+                }
+            }
+
+            jsonObject["colors"] = singleColorObject; 
+            string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+            System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
+
+            return Json(new { success = true });
+        }
+
+
+
         public async Task<ActionResult> Products()
         {
-            var products = await _shopifyService.GetProducts(); // Fetch Shopify products here
+            var products = await _shopifyService.GetProducts(); 
   
             var productModels = products.Select(p => new ProductModel
             {

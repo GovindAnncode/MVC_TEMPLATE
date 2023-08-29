@@ -221,21 +221,21 @@
             </div>
         </div>
 
-            <!-- top navigation -->
-            <div class="top_nav">
+        <!-- top navigation -->
+        <div class="top_nav">
 
-            </div>
-            <!-- /top navigation -->
-            <!-- page content -->
-            <div class="right_col" role="main">
-                <div class="">
-                    <div class="page-title">
-                        <div class="title_left">
-                            <h3>Form Elements</h3>
-                        </div>
-
+        </div>
+        <!-- /top navigation -->
+        <!-- page content -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Form Elements</h3>
                     </div>
-                    @*<div class="clearfix"></div>*@
+
+                </div>
+                @*<div class="clearfix"></div>*@
 
                 <div class="x_panel">
                     <div id="sections-container">
@@ -273,7 +273,7 @@
                                             ID <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="number" id="Id" value="@item.id" required="required" class="form-control">
+                                            <input type="number" id="Id" value="@item.id" required="required" title="Enter A Valid Id" class="form-control" min="1">
                                         </div>
                                     </div>
                                     <div class="item form-group">
@@ -281,14 +281,14 @@
                                             Platform Collection Id <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="collectionid" name="platform_collection" value="@item.platform_collection_id" required="required" class="form-control">
+                                            <input type="text" id="collectionid" name="platform_collection" value="@item.platform_collection_id" required="required" class="form-control" pattern="[a-zA-Z0-9]+" title="Only letters and numbers are allowed">
                                         </div>
                                     </div>
 
                                     <div class="item form-group">
                                         <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Platform Product ID</label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input id="productid" class="form-control" type="text" name="product_Id" value="@item.platform_product_id">
+                                            <input id="productid" class="form-control" type="text" name="product_Id" value="@item.platform_product_id" pattern="[a-zA-Z0-9]+" title="Only letters and numbers are allowed">
                                         </div>
                                     </div>
 
@@ -319,18 +319,18 @@
 
                                     <div class="ln_solid"></div>
                                 </form>
-                                <button class="btn btn-danger delete-section-button" data-id="@item.id" data-image-upload="@item.image_url" data-title="@item.title" data-page-url="@item.page_url" data-productid="@item.platform_product_id" data-collectionid="@item.platform_collection_id" >Delete Section</button>
+                                <button class="btn btn-danger delete-section-button" data-id="@item.id" data-image-upload="@item.image_url" data-title="@item.title" data-page-url="@item.page_url" data-productid="@item.platform_product_id" data-collectionid="@item.platform_collection_id">Delete Section</button>
                             </div>
                             count++;
                         }
                     </div>
-                    </div>
-                    <button class="btn btn-primary save-section-button">Save </button>
-                    <button class="btn btn-primary" id="create-section-btn">Create Section</button>
                 </div>
+                <button class="btn btn-primary save-section-button">Save </button>
+                <button class="btn btn-primary" id="create-section-btn">Create Section</button>
             </div>
         </div>
     </div>
+
 
 
     <!-- jQuery -->
@@ -369,36 +369,83 @@
     <!-- Custom Theme Scripts -->
     <script src="/MasterTemplate/build/js/custom.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include jQuery UI library -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- Include Alertify CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css" />
+    <!-- Include Alertify JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
 
-    
+
+
     <script>
         $(document).ready(function () {
-            var sectionData = []; // Array to store section data
-            var sectionCount = @Model.Count(); // Get the initial section count from your model
+            var sectionCount = @Model.Count();
             var sectionsContainer = $("#sections-container");
             $(".save-section-button").click(function () {
+                var isFormValid = true;
                 $.each($(".section"), function () {
-                    var section = {
-                        Id: $(this).find("#Id").val(),
-                        platform_collection_id: $(this).find("#collectionid").val(),
-                        platform_product_id: $(this).find("#productid").val(),
-                        image_url: $(this).find("#image-upload").val(),
-                        title: $(this).find("#title").val(),
-                        page_url: $(this).find("#page-url").val()
-                    };
+                    var Id = $(this).find("#Id").val();
+                    var pId = $(this).find("#productid").val();
+                    var cId = $(this).find("#collectionid").val();
 
-                    sectionData.push(section);
+                    if (!Id || Id <= 0) {
+                        alertify.alert("Please provide a valid ID for all sections.");
+                        isFormValid = false;
+                        return false;
+                    }
+                    if (pId == "") {
+                        alertify.alert("Please provide a valid ProductID for all sections.");
+                        isFormValid = false;
+                        return false;
+                    }
+                    if (cId == "") {
+                        alertify.alert("Please provide a valid CollectionID for all sections.");
+                        isFormValid = false;
+                        return false;
+                    }
                 });
-                console.log(sectionData);
-                $.ajax({
-                    url: '/Home/AddUpdateMenu', 
-                    type: 'POST',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    data: JSON.stringify(sectionData),
+                if (isFormValid) {
 
-                });
-            })
+                    alertify.confirm("Are you sure you want to save the sections?", function (e) {
+                        if (e) {
+                            var sectionData = [];
+
+                            $.each($(".section"), function () {
+                                var section = {
+                                    Id: $(this).find("#Id").val(),
+                                    platform_collection_id: $(this).find("#collectionid").val(),
+                                    platform_product_id: $(this).find("#productid").val(),
+                                    image_url: $(this).find("#image-upload").val(),
+                                    title: $(this).find("#title").val(),
+                                    page_url: $(this).find("#page-url").val()
+                                };
+
+                                sectionData.push(section);
+                            });
+
+                            console.log(sectionData);
+
+                            $.ajax({
+                                url: '/Home/AddUpdateMenu',
+                                type: 'POST',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: 'json',
+                                data: JSON.stringify(sectionData),
+
+                            }).done(function (response) {
+                                if (response.success) {
+                                    //alertify.alert("Data saved successfully!");
+                                    location.reload();
+                                } else {
+                                    alertify.alert("Error: " + response.message);
+                                }
+                            });
+                        }
+                    }).set('labels', { ok: 'Yes', cancel: 'No' });
+                }
+            });
             function addNewSection() {
                 sectionCount++;
                 var newSection = `
@@ -484,32 +531,57 @@
               </div>
              `;
                 sectionsContainer.append(newSection);
+
+                $(".delete-section-button").off().on("click", function () {
+                    $(this).closest(".section").remove();
+                    location.reload();
+                });
             }
             $(".delete-section-button").click(function () {
-               
-                var MenuData = {
-                    id: $(this).data("id"),
-                    platform_collection_id: $(this).data("collectionid"),
-                    platform_product_id: $(this).data("productid"),
-                    image_url: $(this).data("image-upload"),
-                    title: $(this).data("title"),
-                    page_url: $(this).data("page-url")
-                };
-                console.log(MenuData);
-                var data = JSON.stringify(MenuData);
-                $.ajax({
-                    url: '/Home/DeleteSection',
-                    type: 'POST',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    data: data,
+                var $deleteButton = $(this);
+                var sectionId = $deleteButton.data("id");
+                var sectionTitle = $deleteButton.data("title");
 
-                });
+                alertify.confirm("Are you sure you want to delete the section '" + sectionTitle + "'?", function (e) {
+                    if (e) {
+                        var MenuData = {
+                            id: $deleteButton.data("id"),
+                            platform_collection_id: $deleteButton.data("collectionid"),
+                            platform_product_id: $deleteButton.data("productid"),
+                            image_url: $deleteButton.data("image-upload"),
+                            title: $deleteButton.data("title"),
+                            page_url: $deleteButton.data("page-url")
+                        };
+
+                        console.log(MenuData);
+                        var data = JSON.stringify(MenuData);
+
+                        $.ajax({
+                            url: '/Home/DeleteSection',
+                            type: 'POST',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: 'json',
+                            data: data,
+                        }).done(function (response) {
+                            if (response.success) {
+                               // alertify.alert("Data deleted successfully!");
+                                location.reload();
+                            } else {
+                                alertify.alert("Error: " + response.message);
+                            }
+                        });
+                    }
+                }).set('labels', { ok: 'Yes', cancel: 'No' });
             });
 
-            // Event handler for the "Create New Section" button
             $("#create-section-btn").click(function () {
-                addNewSection();
+                alertify.confirm("Are you sure you want to create the new section?", function (e) {
+                    if (e) {
+                        addNewSection();
+                    } else {
+
+                    }
+                }).set('labels', { ok: 'Yes', cancel: 'No' });
             });
         })
     </script>

@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/ViewPage1.cshtml";
 }
 @{
-    int count = 1; // Initialize a count variable
+    int count = 1;
 }
 
 <!DOCTYPE html>
@@ -243,19 +243,22 @@
                             @foreach (var kvp in Model)
                             {
                                 <div>
-                                    <input  type="text" id="@kvp.Key" value="@kvp.Key" name="@kvp.Key"/>
-                                    <input type="text" id="@kvp.Key" name="@kvp.Key" value="@kvp.Value" />
+                                    <input type="text" class="key-input" value="@kvp.Key" name="@kvp.Key" />
+                                    <input type="text" class="value-input" name="@kvp.Key" value="@kvp.Value" />
+                                    <input type="color" class="color-input" name="@kvp.Key + '-color'" value="@kvp.Value"
+                                           onchange="updateValueColor(this, '@kvp.Key')" />
                                 </div>
+                                <span class="input-group-addon"><i></i></span>
                             }
-                            <input type="submit" value="Save Changes" />
+                            <input type="submit" value="Save" />
+
                         </form>
                     </div>
                 </div>
-                <button class="btn btn-primary save-section-button">Save </button>
-                <button class="btn btn-primary" id="create-section-btn">Create Section</button>
+
+                <button class="btn btn-primary" id="create-section-btn">Create New Field</button>
             </div>
         </div>
-    </div>
     </div>
 
 
@@ -295,152 +298,66 @@
     <!-- Custom Theme Scripts -->
     <script src="/MasterTemplate/build/js/custom.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Alertify CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.min.css" />
+    <!-- Include Alertify JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
 
 
     <script>
-        $(document).ready(function () {
-            var sectionData = []; // Array to store section data
-            var sectionCount = @Model.Count(); // Get the initial section count from your model
-            var sectionsContainer = $("#sections-container");
-            $(".save-section-button").click(function () {
-                $.each($(".section"), function () {
-                    var section = {
-                        Id: $(this).find("#Id").val(),
-                        platform_collection_id: $(this).find("#collectionid").val(),
-                        platform_product_id: $(this).find("#productid").val(),
-                        image_url: $(this).find("#image-upload").val(),
-                        title: $(this).find("#title").val(),
-                        page_url: $(this).find("#page-url").val()
-                    };
+    $(document).ready(function() {
 
-                    sectionData.push(section);
-                });
-                console.log(sectionData);
-                $.ajax({
-                    url: '/Home/AddUpdateMenu',
-                    type: 'POST',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    data: JSON.stringify(sectionData),
+        function updateValueColor(colorInput, key) {
+            var colorValue = colorInput.value;
+            var valueInput = document.querySelector('input[name="' + key + '"]');
+            valueInput.value = colorValue;
+        }
+    var formData = [];
+    var sectionsContainer = $("#sections-container");
 
-                });
-            })
-            function addNewSection() {
-                sectionCount++;
-                var newSection = `
-             <div class="x_title">
-                                <h2>Section  @count</h2>
+    $('#colors-form').submit(function(event) {
+    event.preventDefault();
+   /* debugger;*/
 
-                                <ul class="nav navbar-right panel_toolbox">
-                                    <li>
-                                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                    </li>
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#">Settings 1</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="#">Settings 2</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a class="close-link"><i class="fa fa-close"></i></a>
-                                    </li>
-                                </ul>
-                                <br />
-                            </div>
-                            <div>
-                                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left section">
-                                    <br />
-                                    <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="Id">
-                                            ID <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input type="number" id="Id" required="required" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="platformCollectionId">
-                                            Platform Collection Id <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="collectionid" name="platform_collection" required="required" class="form-control">
-                                        </div>
-                                    </div>
+    $('.key-input').each(function (index, element) {
+    var key = $(element).val();
+    var value = $(element).closest('div').find('.value-input').val();
+    var section = {
+    key: key,
+    value: value
+    };
 
-                                    <div class="item form-group">
-                                        <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Platform Product ID</label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input id="productid" class="form-control" type="text" name="product_Id">
-                                        </div>
-                                    </div>
+    formData.push({ key: section.key, value: section.value
+    });
+    });
 
-                                    <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align">ImageUrl</label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="image-upload" class="form-control">
-                                        </div>
-                                    </div>
 
-                                    <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                            Title <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="title" class="form-control" required="required">
-                                        </div>
-                                    </div>
 
-                                    <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                            PageUrl <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="page-url" class="form-control" required="required">
-                                        </div>
-                                    </div>
+    $.ajax({
+    type: 'POST',
+    url: '@Url.Action("SaveColors", "Home")',
+    data: JSON.stringify(formData),
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function(formData) {
+    console.log(formData);
 
-                                    <div class="ln_solid"></div>
-                                </form>
-                               <button class="btn btn-danger delete-section-button">Delete Section</button>
-              </div>
-             `;
-                sectionsContainer.append(newSection);
-            }
-            $(".delete-section-button").click(function () {
+    $(".section").each(function(index) {
+    $(this).find("[name='theme_color']").val(updatedItems[index].theme_color);
+    $(this).find("[name='full_button_text_color']").val(updatedItems[index].full_button_text_color);
+    });
 
-                var MenuData = {
-                    id: $(this).data("id"),
-                    platform_collection_id: $(this).data("collectionid"),
-                    platform_product_id: $(this).data("productid"),
-                    image_url: $(this).data("image-upload"),
-                    title: $(this).data("title"),
-                    page_url: $(this).data("page-url")
-                };
-                console.log(MenuData);
-                var data = JSON.stringify(MenuData);
-                $.ajax({
-                    url: '/Home/DeleteSection',
-                    type: 'POST',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json',
-                    data: data,
+    alert("Data updated");
+    },
+    error: function(xhr, status, error) {
+    alert("Data not updated");
+    }
+    });
+    });
+    });
 
-                });
-            });
-
-            $("#create-section-btn").click(function () {
-                addNewSection();
-            });
-        })
     </script>
-
 </body>
 </html>
-
 
 

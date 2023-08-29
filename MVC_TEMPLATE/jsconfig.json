@@ -46,8 +46,7 @@
     "item_added_alert_bg_color": "#E2D8E1",
     "item_added_alert_text_color": "#000000",
     "alert_text_color": "#000000",
-    "alert_bg_color": "#00000080",
-    "zeeshan": "Govind"
+    "alert_bg_color": "#00000080"
   },
   "YotpoProd": {
     "grant_type": "client_credentials",
@@ -142,68 +141,80 @@
   "WELCOME_BANNER": {
     "data": [
       {
-        "id": 11,
+        "id": 1,
         "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/1.jpeg"
       },
       {
-        "id": 13,
+        "id": 2,
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/2.jpeg"
+      },
+      {
+        "id": 3,
         "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/3.jpeg"
       },
       {
-        "id": 14,
-        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/4.jpeg"
-      },
-      {
-        "id": 15,
-        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/4.jpeg"
-      },
-      {
-        "id": 12,
-        "banner_image_url": "http.response.org.url"
+        "id": 4,
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/3.jpeg"
       }
     ]
   },
   "menu": {
     "items": [
       {
+        "id": 136,
+        "platform_collection_id": "5655675",
+        "platform_product_id": "11111",
+        "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/forever-in-bloom.jpg",
+        "title": "Forever In Bloom Bundle",
+        "page_url": null
+      },
+      {
         "id": 137,
-        "platform_collection_id": "1234567",
-        "platform_product_id": "2222",
+        "platform_collection_id": "278616342698",
+        "platform_product_id": "222222",
         "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/shop-all.jpg",
         "title": "SHOP ALL",
-        "page_url": "shopproducts.url"
+        "page_url": null
+      },
+      {
+        "id": 141,
+        "platform_collection_id": "292710678698",
+        "platform_product_id": "33333",
+        "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/perfume.jpg",
+        "title": "PERFUME",
+        "page_url": null
       },
       {
         "id": 138,
-        "platform_collection_id": "1234567",
-        "platform_product_id": "3333",
-        "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/perfume.jpg",
-        "title": "PERFUME",
-        "page_url": "newcollection.url"
+        "platform_collection_id": "274247614634",
+        "platform_product_id": "44444",
+        "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/candles.jpg",
+        "title": "CANDLES",
+        "page_url": null
       },
       {
         "id": 139,
-        "platform_collection_id": "1234567",
-        "platform_product_id": "4444",
-        "image_url": "http.king.oraganistion.jpeg",
-        "title": "New Products",
-        "page_url": "theme.collection.url"
+        "platform_collection_id": "274247647402",
+        "platform_product_id": "55555",
+        "image_url": "image url",
+        "title": "DIFFUSERS",
+        "page_url": "https://life-in-lilac-store.myshopify.com/collections/shop-diffusers"
       },
       {
-        "id": 140,
-        "platform_collection_id": "1234567",
-        "platform_product_id": "6666",
-        "image_url": "neworg.com.jpeg",
-        "title": "New Hair Products",
-        "page_url": "newhomescolllection/tshirt"
+        "id": 139,
+        "platform_collection_id": "556546556",
+        "platform_product_id": "66666",
+        "image_url": "image url",
+        "title": "HOME FRAGRANCE",
+        "page_url": "https://lifeinlilac.com/collections/home-fragrance"
       },
       {
-        "id": 140,
-        "platform_collection_id": "564565564",
-        "platform_product_id": "5555",
-        "image_url": "newcollection.org.jpeg",
-        "title": "New Collection",
-        "page_url": "newhomescolllection/tshirt.collection"
+        "id": 144,
+        "platform_collection_id": "567564",
+        "platform_product_id": "7777",
+        "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/candles.jpg",
+        "title": "ROLL ON 6 PACK TRIAL SIZE",
+        "page_url": null
       }
     ]
   },
@@ -367,28 +378,60 @@
   "buy_more_save_more": {
     "Rules": [
       {
+        "product_min_count": 1,
+        "product_max_count": 5,
+        "free_shipping": false,
+        "discount_percentage": 10,
+        "message": "Add XX more item to earn 10% discount with free shipping.",
+        "applied_msg": "You earned free shipping. "
+      },
+      {
         "product_min_count": 3,
-        "product_max_count": 3,
+        "product_max_count": 30,
         "free_shipping": true,
         "discount_percentage": 10,
         "message": "Add XX more item to earn 15% discount with free shipping.",
         "applied_msg": "You earned 10% discount and free shipping."
       },
       {
-        "product_min_count": 6,
-        "product_max_count": -1,
+        "product_min_count": 4,
+        "product_max_count": 5,
         "free_shipping": false,
-        "discount_percentage": 25,
-        "message": "new collection sale",
-        "applied_msg": "You earned 25% discount and free shipping."
+        "discount_percentage": 15,
+        "message": "Add XX more item to earn 25% discount and free shipping.",
+        "applied_msg": "You earned 15% discount and free shipping"
       },
       {
-        "product_min_count": 5,
-        "product_max_count": 50,
+        "product_min_count": 1,
+        "product_max_count": 5,
+        "free_shipping": false,
+        "discount_percentage": 10,
+        "message": "Add XX more item to earn 10% discount with free shipping.",
+        "applied_msg": "You earned free shipping. "
+      },
+      {
+        "product_min_count": 3,
+        "product_max_count": 30,
         "free_shipping": true,
-        "discount_percentage": 25,
-        "message": "new year sale",
-        "applied_msg": "you will get 25% discount"
+        "discount_percentage": 10,
+        "message": "Add XX more item to earn 15% discount with free shipping.",
+        "applied_msg": "You earned 10% discount and free shipping."
+      },
+      {
+        "product_min_count": 4,
+        "product_max_count": 5,
+        "free_shipping": false,
+        "discount_percentage": 15,
+        "message": "Add XX more item to earn 25% discount and free shipping.",
+        "applied_msg": "You earned 15% discount and free shipping"
+      },
+      {
+        "product_min_count": 2,
+        "product_max_count": 10,
+        "free_shipping": true,
+        "discount_percentage": 10,
+        "message": "Add minimum 2 product to get discount",
+        "applied_msg": "You earned 10% discount and free shipping"
       }
     ],
     "exclude_tags": [
@@ -399,55 +442,5 @@
     "additional_notes_for_display": ""
   },
   "NEXTOff": "If Customer have NextOff tag Customer will get 50% on Products Contains tag specificitem",
-  "NextOff20": "If Customer have NextOff20 tag Customer will get 20% on Products Contains tag specificitem",
-  "Menu": [
-    {
-      "id": 136,
-      "platform_collection_id": null,
-      "platform_product_id": null,
-      "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/forever-in-bloom.jpg",
-      "title": "Forever In Bloom Bundle",
-      "page_url": "product.org.com"
-    },
-    {
-      "id": 137,
-      "platform_collection_id": null,
-      "platform_product_id": null,
-      "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/shop-all.jpg",
-      "title": "SHOP ALL",
-      "page_url": "shopproducts.url"
-    },
-    {
-      "id": 138,
-      "platform_collection_id": null,
-      "platform_product_id": null,
-      "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/perfume.jpg",
-      "title": "PERFUME",
-      "page_url": "newcollection.url"
-    },
-    {
-      "id": 139,
-      "platform_collection_id": null,
-      "platform_product_id": null,
-      "image_url": "http.king.oraganistion.jpeg",
-      "title": "New Products",
-      "page_url": "theme.collection.url"
-    },
-    {
-      "id": 141,
-      "platform_collection_id": null,
-      "platform_product_id": null,
-      "image_url": "http.king.oraganistion.jpeg",
-      "title": "New Products",
-      "page_url": "theme.collection.url"
-    },
-    {
-      "id": 150,
-      "platform_collection_id": null,
-      "platform_product_id": null,
-      "image_url": "neworg.com.jpeg",
-      "title": "New Hair Product",
-      "page_url": "newhomescolllection/tshirt"
-    }
-  ]
+  "NextOff20": "If Customer have NextOff20 tag Customer will get 20% on Products Contains tag specificitem"
 }
