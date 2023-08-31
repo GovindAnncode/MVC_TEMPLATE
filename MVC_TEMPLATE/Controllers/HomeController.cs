@@ -283,8 +283,6 @@ namespace MVC_TEMPLATE.Controllers
                 return Json(new { success = false, message = "An error occurred while deleting data." });
             }
         }
-
-
         public ActionResult GetColors()
         {
             string jsonFilePath = Server.MapPath("~//jsconfig.json");
@@ -329,12 +327,87 @@ namespace MVC_TEMPLATE.Controllers
             return Json(new { success = true });
         }
 
+        public ActionResult return_reasons()
+        {
+            string jsonFilePath = Server.MapPath("~//jsconfig.json");
 
+            string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+            dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
 
+            List<return_reasons> itemsList = new List<return_reasons>();
+
+            foreach (var itemData in jsonObject["return_reasons"])
+            {
+                return_reasons item = new return_reasons()
+                {
+                    reason_code = (string)itemData["reason_code"],
+                    reason_title = (string)itemData["reason_title"]
+                   
+                };
+
+                itemsList.Add(item);
+            }
+
+            return View(itemsList);
+        }
+
+        [HttpPost]
+        public ActionResult AddUpdateReturn_reasons(List<return_reasons> newData)
+        {
+            try
+            {
+                string jsonFilePath = Server.MapPath("~//jsconfig.json");
+                string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+                dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
+
+                jsonObject.return_reasons = JArray.FromObject(newData);
+                string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+                System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
+
+                return Json(new { success = true, message = "Data saved successfully." });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error occurred while saving data." });
+            }
+        }
+        [HttpPost]
+        public ActionResult DeleteReturnReason(return_reasons newData)
+        {
+            try
+            {
+                string jsonFilePath = Server.MapPath("~//jsconfig.json");
+                string jsonData = System.IO.File.ReadAllText(jsonFilePath);
+                dynamic jsonObject = JsonConvert.DeserializeObject(jsonData);
+
+                JArray rulesArray = jsonObject.return_reasons;
+
+                for (int i = 0; i < rulesArray.Count; i++)
+                {
+                    dynamic rule = rulesArray[i];
+
+                    if ((string)rule["reason_code"] == newData.reason_code &&
+                        (string)rule["reason_title"] == newData.reason_title)
+                    {
+                        rulesArray.RemoveAt(i);
+                        break;
+                    }
+                }
+
+                string updatedJsonData = JsonConvert.SerializeObject(jsonObject, Formatting.Indented);
+                System.IO.File.WriteAllText(jsonFilePath, updatedJsonData);
+
+                return Json(new { success = true, message = "Data deleted successfully." });
+            }
+            catch (Exception)
+            {
+                return Json(new { success = false, message = "An error occurred while deleting data." });
+            }
+        }
         public async Task<ActionResult> Products()
         {
-            var products = await _shopifyService.GetProducts(); 
-  
+            var products = await _shopifyService.GetProducts();
+
             var productModels = products.Select(p => new ProductModel
             {
                 ProductId = (long)p.Id,
@@ -361,7 +434,7 @@ namespace MVC_TEMPLATE.Controllers
                         ProductId = product.ProductId,
                         Product_Title = product.Product_Title,
                         CreatedOn = product.CreatedOn.ToString(),
-                        ShopId = shopId 
+                        ShopId = shopId
                     };
 
                     dbContext.tbSelectedProducts.Add(selectedProduct);
@@ -370,6 +443,7 @@ namespace MVC_TEMPLATE.Controllers
             }
             return Json(new { success = true });
         }
+
 
     }
 }

@@ -180,6 +180,7 @@
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\NewMenuItemData.cs" />
     <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\return_reasons.cs" />
     <Compile Include="Models\Rules.cs" />
     <Compile Include="Models\selectProductModel.cs" />
     <Compile Include="Models\Welcome_Banner.cs" />
@@ -4671,6 +4672,7 @@
     <Content Include="Views\Home\Rules.cshtml" />
     <Content Include="Views\Home\Welcome_Banner.cshtml" />
     <Content Include="Views\Home\GetColors.cshtml" />
+    <Content Include="Views\Home\return_reasons.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

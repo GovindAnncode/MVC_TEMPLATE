@@ -155,6 +155,18 @@
       {
         "id": 4,
         "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/3.jpeg"
+      },
+      {
+        "id": 5,
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/3.jpeg"
+      },
+      {
+        "id": 6,
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/3.jpeg"
+      },
+      {
+        "id": 7,
+        "banner_image_url": "https://prodapp.hmhitechsolutions.in/Shop/stg-life-in-lilac-store.myshopify.com/welcome/3.jpeg"
       }
     ]
   },
@@ -215,6 +227,22 @@
         "image_url": "https://prodapp.hmhitechsolutions.in/Shop/life-in-lilac-store.myshopify.com/collection/candles.jpg",
         "title": "ROLL ON 6 PACK TRIAL SIZE",
         "page_url": null
+      },
+      {
+        "id": 144,
+        "platform_collection_id": "646454545",
+        "platform_product_id": "8888",
+        "image_url": "http./products/Shopify.org.jpeg",
+        "title": "New Collection",
+        "page_url": "newhomescolllection/tshirt"
+      },
+      {
+        "id": 151,
+        "platform_collection_id": "7567564",
+        "platform_product_id": "9999",
+        "image_url": "http./products/Shopify.org.jpeg",
+        "title": "New Collection",
+        "page_url": "newhomescolllection/mobiels"
       }
     ]
   },
@@ -419,18 +447,18 @@
       },
       {
         "product_min_count": 4,
-        "product_max_count": 5,
+        "product_max_count": 10,
         "free_shipping": false,
         "discount_percentage": 15,
         "message": "Add XX more item to earn 25% discount and free shipping.",
         "applied_msg": "You earned 15% discount and free shipping"
       },
       {
-        "product_min_count": 2,
-        "product_max_count": 5,
+        "product_min_count": 1,
+        "product_max_count": 10,
         "free_shipping": true,
         "discount_percentage": 10,
-        "message": "Add minimum 2 product to get discount",
+        "message": "Add minimum 1 product to get discount",
         "applied_msg": "You earned 10% discount and free shipping"
       }
     ],

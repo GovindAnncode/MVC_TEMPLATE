@@ -11,7 +11,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  
+    <style>
+        .error-msg {
+            color: red;
+            font-size: 16px;
+            margin-top: 5px; 
+        }
+    </style>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
@@ -273,7 +279,7 @@
                                             ID <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="number" id="Id" value="@item.id" required="required" title="Enter A Valid Id" class="form-control" min="1">
+                                            <input type="number" id="Id" value="@item.id" required="required" title="Enter a Valid Id" class="form-control" min="1">
                                         </div>
                                     </div>
                                     <div class="item form-group">
@@ -286,9 +292,11 @@
                                     </div>
 
                                     <div class="item form-group">
-                                        <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Platform Product ID</label>
+                                        <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">
+                                        Platform Product Id <span class="required">*</span>
+                                        </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input id="productid" class="form-control" type="text" name="product_Id" value="@item.platform_product_id" pattern="[a-zA-Z0-9]+" title="Only letters and numbers are allowed">
+                                            <input id="productid" class="form-control" type="text" name="product_Id" value="@item.platform_product_id"  title="Only letters and numbers are allowed">
                                         </div>
                                     </div>
 
@@ -301,19 +309,19 @@
 
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                            Title <span class="required">*</span>
+                                            Title 
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="title" class="form-control" value="@item.title" required="required">
+                                            <input type="text" id="title" class="form-control" value="@item.title"/>
                                         </div>
                                     </div>
 
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                            PageUrl <span class="required">*</span>
+                                            PageUrl 
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="page-url" class="form-control" value="@item.page_url" required="required">
+                                            <input type="text" id="page-url" class="form-control" value="@item.page_url"/>
                                         </div>
                                     </div>
 
@@ -378,73 +386,99 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
 
 
-
     <script>
         $(document).ready(function () {
             var sectionCount = @Model.Count();
             var sectionsContainer = $("#sections-container");
             $(".save-section-button").click(function () {
                 var isFormValid = true;
+
                 $.each($(".section"), function () {
                     var Id = $(this).find("#Id").val();
                     var pId = $(this).find("#productid").val();
                     var cId = $(this).find("#collectionid").val();
 
+                    var idField = $(this).find("#Id");
+                    var pIdField = $(this).find("#productid");
+                    var cIdField = $(this).find("#collectionid");
+
+                    var idError = "Please enter a valid ID.";
+                    var pIdError = "Please enter a valid ProductID.";
+                    var cIdError = "Please enter a valid CollectionID.";
+
+                    removeErrorMessage(idField);
+                    removeErrorMessage(pIdField);
+                    removeErrorMessage(cIdField);
+
                     if (!Id || Id <= 0) {
-                        alertify.alert("Please provide a valid ID for all sections.");
+                        addErrorMessage(idField, idError);
                         isFormValid = false;
-                        return false;
                     }
-                    if (pId == "") {
-                        alertify.alert("Please provide a valid ProductID for all sections.");
+
+                    if (pId === "") {
+                        addErrorMessage(pIdField, pIdError);
                         isFormValid = false;
-                        return false;
                     }
-                    if (cId == "") {
-                        alertify.alert("Please provide a valid CollectionID for all sections.");
+
+                    if (cId === "") {
+                        addErrorMessage(cIdField, cIdError);
                         isFormValid = false;
-                        return false;
+                    }
+
+                    function addErrorMessage(field, errorMsg) {
+                        if (!field.next(".error-msg").length) {
+                            var errorSpan = $("<span>", { class: "error-msg" }).text(errorMsg);
+                            field.after(errorSpan);
+                        }
+                    }
+
+                    function removeErrorMessage(field) {
+                        field.next(".error-msg").remove();
                     }
                 });
-                if (isFormValid) {
 
-                    alertify.confirm("Are you sure you want to save the sections?", function (e) {
-                        if (e) {
-                            var sectionData = [];
-
-                            $.each($(".section"), function () {
-                                var section = {
-                                    Id: $(this).find("#Id").val(),
-                                    platform_collection_id: $(this).find("#collectionid").val(),
-                                    platform_product_id: $(this).find("#productid").val(),
-                                    image_url: $(this).find("#image-upload").val(),
-                                    title: $(this).find("#title").val(),
-                                    page_url: $(this).find("#page-url").val()
-                                };
-
-                                sectionData.push(section);
-                            });
-
-                            console.log(sectionData);
-
-                            $.ajax({
-                                url: '/Home/AddUpdateMenu',
-                                type: 'POST',
-                                contentType: "application/json; charset=utf-8",
-                                dataType: 'json',
-                                data: JSON.stringify(sectionData),
-
-                            }).done(function (response) {
-                                if (response.success) {
-                                    //alertify.alert("Data saved successfully!");
-                                    location.reload();
-                                } else {
-                                    alertify.alert("Error: " + response.message);
-                                }
-                            });
-                        }
-                    }).set('labels', { ok: 'Yes', cancel: 'No' });
+                if (!isFormValid) {
+                    return false;
                 }
+                // console.log("hello");
+                //alert('hello');
+                alertify.confirm("Are you sure you want to save the sections?", function (e) {
+                    if (e) {
+                        var sectionData = [];
+
+                        $.each($(".section"), function () {
+                            var section = {
+                                Id: $(this).find("#Id").val(),
+                                platform_collection_id: $(this).find("#collectionid").val(),
+                                platform_product_id: $(this).find("#productid").val(),
+                                image_url: $(this).find("#image-upload").val(),
+                                title: $(this).find("#title").val(),
+                                page_url: $(this).find("#page-url").val()
+                            };
+
+                            sectionData.push(section);
+                        });
+
+                        console.log(sectionData);
+
+                        $.ajax({
+                            url: '/Home/AddUpdateMenu',
+                            type: 'POST',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: 'json',
+                            data: JSON.stringify(sectionData),
+
+                        }).done(function (response) {
+                            if (response.success) {
+                                //alertify.alert("Data saved successfully!");
+                                location.reload();
+                            } else {
+                                alertify.alert("Error: " + response.message);
+                            }
+                        });
+                    }
+                }).set('labels', { ok: 'Yes', cancel: 'No' });
+   
             });
             function addNewSection() {
                 sectionCount++;
@@ -494,7 +528,9 @@
                                     </div>
 
                                     <div class="item form-group">
-                                        <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">Platform Product ID</label>
+                                        <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">
+                                        Platform Product Id <span class="required">*</span>
+                                        </label>
                                         <div class="col-md-6 col-sm-6 ">
                                             <input id="productid" class="form-control" type="text" name="product_Id">
                                         </div>
@@ -509,19 +545,19 @@
 
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                            Title <span class="required">*</span>
+                                            Title 
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="title" class="form-control" required="required">
+                                            <input type="text" id="title" class="form-control"/>
                                         </div>
                                     </div>
 
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                            PageUrl <span class="required">*</span>
+                                            PageUrl 
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="page-url" class="form-control" required="required">
+                                            <input type="text" id="page-url" class="form-control" />
                                         </div>
                                     </div>
 
@@ -585,7 +621,6 @@
             });
         })
     </script>
-
 </body>
 </html>
 

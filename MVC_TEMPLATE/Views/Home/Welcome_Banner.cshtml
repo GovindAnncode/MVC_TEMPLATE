@@ -17,6 +17,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .error-msg {
+            color: red;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+    </style>
     <link rel="icon" href="~/MasterTemplate/production/images/favicon.ico" type="image/ico" />
 
     <title>Gentelella Alela! | </title>
@@ -344,47 +351,65 @@
         $(document).ready(function () {
             var sectionData = [];
             var sectionCount = @Model.Count();
-            
             var sectionsContainer = $("#sections-container");
+
             $(".save-section-button").click(function () {
                 var isFormValid = true;
+
                 $.each($(".section"), function () {
                     var Id = $(this).find("#Id").val();
+                    var idField = $(this).find("#Id");
+                    var idError = "Please Enter a valid ID.";
+
+                    removeErrorMessage(idField);
 
                     if (!Id || Id <= 0) {
-                        alertify.alert("Please provide a valid ID for all sections.");
+                        addErrorMessage(idField, idError);
                         isFormValid = false;
-                        return false; 
+                    }
+
+                    function addErrorMessage(field, errorMsg) {
+                        if (!field.next(".error-msg").length) {
+                            var errorSpan = $("<span>", { class: "error-msg" }).text(errorMsg);
+                            field.after(errorSpan);
+                        }
+                    }
+                    function removeErrorMessage(field) {
+                        field.next(".error-msg").remove();
                     }
                 });
-                if (isFormValid) {
-                    alertify.confirm("Are you sure you want to save the sections?", function (e) {
-                        if (e) {
-                            $.each($(".section"), function () {
-                                var section = {
-                                    Id: $(this).find("#Id").val(),
-                                    banner_image_url: $(this).find("#bannerimg_url").val(),
-                                };
 
-                                sectionData.push(section);
-                            });
-
-                            console.log(sectionData);
-
-                            $.ajax({
-                                url: '/Home/AddUpdateWelcomeBanner',
-                                type: 'POST',
-                                contentType: "application/json; charset=utf-8",
-                                dataType: 'json',
-                                data: JSON.stringify(sectionData),
-                            }).done(function (response) {
-                                location.reload();
-                                alertify.alert("Data saved successfully!");
-                            });
-                        }
-                    }).set('labels', { ok: 'Yes', cancel: 'No' });
+                if (!isFormValid) {
+                    return false;
                 }
+                alertify.confirm("Are you sure you want to save the sections?", function (e) {
+                    if (e) {
+                        $.each($(".section"), function () {
+                            var section = {
+                                Id: $(this).find("#Id").val(),
+                                banner_image_url: $(this).find("#bannerimg_url").val(),
+                            };
+
+                            sectionData.push(section);
+                        });
+
+                        console.log(sectionData);
+
+                        $.ajax({
+                            url: '/Home/AddUpdateWelcomeBanner',
+                            type: 'POST',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: 'json',
+                            data: JSON.stringify(sectionData),
+                        }).done(function (response) {
+                            location.reload();
+                            alertify.alert("Data saved successfully!");
+                        });
+                    }
+                }).set('labels', { ok: 'Yes', cancel: 'No' });
+          
             });
+            
             function addNewSection() {
                 sectionCount++;
                 var newSection = `
@@ -434,7 +459,7 @@
 
                                     <div class="ln_solid"></div>
                                 </form>
-                                 <button class="btn btn-danger delete-section-button">Delete Section</button>
+
               </div>
              `;
                 sectionsContainer.append(newSection);

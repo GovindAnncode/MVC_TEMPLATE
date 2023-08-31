@@ -1,11 +1,11 @@
-﻿@model IEnumerable<MVC_TEMPLATE.Models.Rules>
+﻿@model IEnumerable<MVC_TEMPLATE.Models.return_reasons>
 
 @{
     ViewBag.Title = "Rules";
     Layout = "~/Views/Shared/ViewPage1.cshtml";
 }
 @{
-    int count = 1; // Initialize a count variable
+    int count = 1; 
 }
 
 
@@ -98,9 +98,9 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a><i class="fa fa-download"></i>Menu <span class="fa fa-chevron-down"></span></a>
+                                    <a><i class="fa fa-download"></i>Return_Reasons <span class="fa fa-chevron-down"></span></a>
                                     <ul class="nav child_menu">
-                                        <li id="MenuLink"><a href="/Home/Menu">Get Menu</a></li>
+                                        <li id="MenuLink"><a href="/Home/return_reasons">Get Return Reasons</a></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -264,58 +264,25 @@
                                         <br />
                                         <div class="item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3 label-align" for="Id">
-                                                Product Min Count <span class="required">*</span>
+                                                Reason Code <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 ">
-                                                <input type="number" id="min_count" value="@item.product_min_count" required class="form-control" pattern="\d+" title="Please enter a valid number.">
+                                                <input type="text" id="reasoncode" value="@item.reason_code" required class="form-control" pattern="\d+" title="Please enter a valid number.">
                                             </div>
                                         </div>
                                         <div class="item form-group">
                                             <label class="col-form-label col-md-3 col-sm-3 label-align" for="platformCollectionId">
-                                                Product Max Count <span class="required">*</span>
+                                                Reason Title <span class="required">*</span>
                                             </label>
                                             <div class="col-md-6 col-sm-6 ">
-                                                <input type="text" id="max_count" name="platform_collection" value="@item.product_max_count" required class="form-control error-msg"/>
+                                                <input type="text" id="reasontitle" name="platform_collection" value="@item.reason_title" required class="form-control error-msg" />
                                             </div>
                                         </div>
 
-                                        <div class="item form-group">
-                                            <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">
-                                            Free shipping <span class="required">*</span>
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 ">
-                                                <input id="shipping" class="form-control" type="text" name="free_shipping" value="@((item.free_shipping ? 1 : 0).ToString())" required/>
-                                            </div>
-                                        </div>
-
-                                        <div class="item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3 label-align">Discount Percentage</label>
-                                            <div class="col-md-6 col-sm-6 ">
-                                                <input type="text" id="discount" class="form-control" value="@item.discount_percentage" required/>
-                                            </div>
-                                        </div>
-
-                                        <div class="item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                                Message
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 ">
-                                                <input type="text" id="message" class="form-control" value="@item.message"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="item form-group">
-                                            <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                                Applied Message 
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 ">
-                                                <input type="text" id="appliedmsg" class="form-control" value="@item.applied_msg" />
-                                            </div>
-                                        </div>
-
+                                        
                                         <div class="ln_solid"></div>
                                     </form>
-                                    <button class="btn btn-danger delete-section-button" data-min_count="@item.product_min_count" data-max_count="@item.product_max_count" data-shipping="@item.free_shipping" data-discount="@item.discount_percentage" data-appliedmsg="@item.applied_msg" data-message="@item.message">Delete Section</button>
+                                    <button class="btn btn-danger delete-section-button" data-reason_title="@item.reason_title" data-reason_code="@item.reason_code">Delete Section</button>
                                 </div>
                                 count++;
                             }
@@ -373,48 +340,39 @@
 
     <script>
         $(document).ready(function () {
-            var RulesData = [];
+            var returnReasonData = [];
             var sectionCount = @Model.Count();
             var sectionsContainer = $("#sections-container");
             var sectionCount = @Model.Count();
             var sectionsContainer = $("#sections-container");
             $(".save-section-button").click(function () {
                 var isFormValid = true;
-                
+
                 $.each($(".section"), function () {
-   
-                    var minCountField = $(this).find("#min_count");
-                    var maxCountField = $(this).find("#max_count");
-                    var freeShippingField = $(this).find("#shipping");
 
-                    var minCountError = "Product Min Count should be greater than 1.";
-                    var maxCountError = "Product Max Count should be greater than min count.";
-                    var freeShippingError = "Free Shipping value should be 0 or 1.";
+                    var reasoncodeField = $(this).find("#reasoncode");
+                    var reasontitleField = $(this).find("#reasontitle");
 
-                    var minCountValue = parseInt($(this).find("#min_count").val());
-                    var maxCountValue = parseInt($(this).find("#max_count").val());
-                    var freeShippingValue = parseInt(freeShippingField.val());
+                    var reasoncodeError = "Please Enter a Valid Code.";
+                    var reasontitleError = "Please Enter a Retrurn Reason.";
+
+                    var reasoncodeValue = $(this).find("#reasoncode").val();
+                    var reasontitleValue = $(this).find("#reasontitle").val();
                    
-                    console.log(minCountValue);
-                    console.log(maxCountValue);
-                    console.log(freeShippingValue);
-                    removeErrorMessage(minCountField);
-                    removeErrorMessage(maxCountField);
-                    removeErrorMessage(freeShippingField);
+                    console.log(reasoncodeValue);
+                    console.log(reasontitleValue);
+                   
+                    removeErrorMessage(reasoncodeField);
+                    removeErrorMessage(reasontitleField);                 
 
-                    if (isNaN(minCountValue) || minCountValue < 1) {
-                        addErrorMessage(minCountField, minCountError);
+                    if (reasoncodeValue === "") {
+                        addErrorMessage(reasoncodeField, reasoncodeError);
                         isFormValid = false;
                     }
 
-                    if (isNaN(maxCountValue) || maxCountValue <= minCountValue) {
-                        addErrorMessage(maxCountField, maxCountError);
+                    if (reasontitleValue === "") {
+                        addErrorMessage(reasontitleField, reasontitleError);
                         isFormValid = false;
-                    }
-
-                    if (isNaN(freeShippingValue) || (freeShippingValue !== 0 && freeShippingValue !== 1)) {
-                        addErrorMessage(freeShippingField, freeShippingError); 
-                        isFormValid = false; 
                     }
 
                     function addErrorMessage(field, errorMsg) {
@@ -428,36 +386,32 @@
                         field.next(".error-msg").remove();
                     }
                 });
-                
+
                 if (isFormValid == false) {
-                    alert("Invalid Entries");
+                    return false;
                 }
                 else {
                     alertify.confirm("Are you sure you want to save the sections?", function (e) {
                         if (e) {
 
                             $.each($(".section"), function () {
-                                var freeShippingValue = $(this).find("#shipping").val() === "1";
-
-                                var RuleData = {
-                                    product_min_count: $(this).find("#min_count").val(),
-                                    product_max_count: $(this).find("#max_count").val(),
-                                    free_shipping: freeShippingValue,
-                                    discount_percentage: $(this).find("#discount").val(),
-                                    message: $(this).find("#message").val(),
-                                    applied_msg: $(this).find("#appliedmsg").val()
+                               
+                                var Data = {
+                                    reason_code: $(this).find("#reasoncode").val(),
+                                    reason_title: $(this).find("#reasontitle").val(),
+                                    
                                 };
-                                RulesData.push(RuleData);
+                                returnReasonData.push(Data);
                             });
 
-                            console.log(RulesData);
+                            console.log(returnReasonData);
 
                             $.ajax({
-                                url: '/Home/AddUpdateRules',
+                                url: '/Home/AddUpdateReturn_reasons',
                                 type: 'POST',
                                 contentType: "application/json; charset=utf-8",
                                 dataType: 'json',
-                                data: JSON.stringify(RulesData),
+                                data: JSON.stringify(returnReasonData),
                             }).done(function (response) {
                                 if (response.success) {
                                     alertify.alert("Data Saved successfully!");
@@ -469,7 +423,7 @@
                         }
                     }).set('labels', { ok: 'Yes', cancel: 'No' });
                 }
-                
+
 
             });
 
@@ -504,59 +458,24 @@
                                 <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left section">
                                     <br />
                                     <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="Id">
-                                            Product Min Count <span class="required">*</span>
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="Reason Code">
+                                            Reason Code <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="number" id="min_count" required="required" class="form-control">
+                                            <input type="text" id="reasoncode" required="required" class="form-control">
                                         </div>
                                     </div>
                                     <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="platformCollectionId">
-                                            Product Max Count <span class="required">*</span>
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="Reason Title">
+                                            Reason Title 
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="max_count" name="platform_collection" required="required" class="form-control">
+                                            <input type="text" id="reasontitle"  required="required" class="form-control">
                                         </div>
                                     </div>
-
-                                    <div class="item form-group">
-                                        <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align">
-                                        Free shipping <span class="required">*</span>
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input id="shipping" class="form-control" type="text" required="required">
-                                        </div>
-                                    </div>
-
-                                    <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Discount Percentage</label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="discount" class="form-control"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                            Message 
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="message" class="form-control"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="item form-group">
-                                        <label class="col-form-label col-md-3 col-sm-3 label-align">
-                                            Applied Message
-                                        </label>
-                                        <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="appliedmsg" class="form-control"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="ln_solid"></div>
-                                </form>
-                                 <button class="btn btn-danger delete-section-button" >Delete Section</button>
+                                  <div class="ln_solid"></div>
+                              </form>
+                           <button class="btn btn-danger delete-section-button" >Delete Section</button>
 
               </div>
              `;
@@ -571,26 +490,19 @@
 
                 alertify.confirm("Are you sure you want to delete the section?", function (e) {
                     if (e) {
-                        var productMinCount = $deleteButton.data("min_count");
-                        var productMaxCount = $deleteButton.data("max_count");
-                        var freeShippingValue = $deleteButton.data("shipping");
-                        var discountPercentage = $deleteButton.data("discount");
-                        var message = $deleteButton.data("message");
-                        var appliedMsg = $deleteButton.data("appliedmsg");
-
-                        var RuleData = {
-                            product_min_count: productMinCount,
-                            product_max_count: productMaxCount,
-                            free_shipping: freeShippingValue,
-                            discount_percentage: discountPercentage,
-                            message: message,
-                            applied_msg: appliedMsg
+                        var reasoncode = $deleteButton.data("reason_code");
+                        var reasontitle = $deleteButton.data("reason_title");
+                        
+                        var Data = {
+                            reason_code: reasoncode,
+                            reason_title: reasontitle,
+                            
                         };
 
-                        console.log(RuleData);
-                        var data = JSON.stringify(RuleData);
+                        console.log(Data);
+                        var data = JSON.stringify(Data);
                         $.ajax({
-                            url: '/Home/DeleteRule',
+                            url: '/Home/DeleteReturnReason',
                             type: 'POST',
                             contentType: "application/json; charset=utf-8",
                             dataType: 'json',
@@ -619,5 +531,6 @@
 
 </body>
 </html>
+
 
 
