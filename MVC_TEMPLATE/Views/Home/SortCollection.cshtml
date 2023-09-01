@@ -1,0 +1,244 @@
+﻿@model IEnumerable<MVC_TEMPLATE.Models.SortCollection>
+
+@{
+    ViewBag.Title = "SortCollection";
+    Layout = "~/Views/Shared/ViewPage1.cshtml";
+}
+
+@{
+    int count = 1;
+}
+
+<h2>SortCollection </h2>
+
+<div class="x_panel">
+    <div id="sections-container">
+        @foreach (var item in Model)
+        {
+            <div class="x_title">
+                <h2>Section  @count</h2>
+                <button class="btn pull-right btn-danger delete-section-button" data-id="@item.id" data-platform_collection_id="@item.platform_collection_id" data-title="@item.title"><i class="fa fa-trash"></i></button>
+                <br />
+
+                <br />
+            </div>
+            <div>
+                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left section">
+                    <br />
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="Id">
+                            ID <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <input type="number" id="id" value="@item.id" required="required" class="form-control">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="platformCollectionId">
+                            Platform Collection Id <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <input type="text" id="collectionid" name="platform_collection" value="@item.platform_collection_id" required="required" class="form-control">
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                    <div class="item form-group">
+                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="platformCollectionId">
+                            Title 
+                        </label>
+                        <div class="col-md-6 col-sm-6 ">
+                            <input type="text" id="title" name="title" value="@item.title"  class="form-control">
+                        </div>
+                    </div>
+                    <div class="ln_solid"></div>
+                </form>
+
+            </div>
+            count++;
+        }
+    </div>
+</div>
+<button class="btn btn-primary save-section-button">Save </button>
+<button class="btn btn-primary" id="create-section-btn">Create Section</button>
+
+<script src="~/Content/MasterTemplate/vendors/echarts/test/lib/jquery.min.js"></script>
+<script>
+        $(document).ready(function () {
+            var returnReasonData = [];
+            var sectionCount = @Model.Count();
+            var sectionsContainer = $("#sections-container");
+            var sectionCount = @Model.Count();
+            var sectionsContainer = $("#sections-container");
+            $(".save-section-button").click(function () {
+                var isFormValid = true;
+
+                $.each($(".section"), function () {
+
+                    var IdField = $(this).find("#id");
+                    var CollectionIdField = $(this).find("#title");
+
+                    var IdError = "Please enter a valid Id.";
+                    var CollectionIdError = "Please Enter a valid collection Id.";
+
+                    var IdValue = $(this).find("#id").val();
+                    var CollectionIdValue = $(this).find("#collectionid").val();
+
+                    console.log(IdValue);
+                    console.log(CollectionValue);
+
+                    removeErrorMessage(IdField);
+                    removeErrorMessage(CollectionField);
+
+                    if (isNaN(IdValue) || IdValue<=0) {
+                        addErrorMessage(IdField, IdError);
+                        isFormValid = false;
+                    }
+
+                    if (CollectionIdValue === "") {
+                        addErrorMessage(CollectionField, CollectionIdError);
+                        isFormValid = false;
+                    }
+
+                    function addErrorMessage(field, errorMsg) {
+                        if (!field.next(".error-msg").length) {
+                            var errorSpan = $("<span>", { class: "error-msg" }).text(errorMsg);
+                            field.after(errorSpan);
+                        }
+                    }
+
+                    function removeErrorMessage(field) {
+                        field.next(".error-msg").remove();
+                    }
+                });
+
+                if (isFormValid == false) {
+                    return false;
+                }
+                else {
+                    alertify.confirm("Are you sure you want to save the sections?", function (e) {
+                        if (e) {
+
+                            $.each($(".section"), function () {
+
+                                var Data = {
+                                    id: $(this).find("#id").val(),
+                                    platform_collection_id: $(this).find("#collectionid").val(),
+
+                                };
+                                returnReasonData.push(Data);
+                            });
+
+                            console.log(returnReasonData);
+
+                            $.ajax({
+                                url: '/Home/AddUpdateSortCollection',
+                                type: 'POST',
+                                contentType: "application/json; charset=utf-8",
+                                dataType: 'json',
+                                data: JSON.stringify(returnReasonData),
+                            }).done(function (response) {
+                                if (response.success) {
+                                    alertify.success("Data Saved successfully!");
+                                    location.reload();
+                                } else {
+                                    alertify.alert("Error: " + response.message);
+                                }
+                            });
+                        }
+                    }).set('labels', { ok: 'Yes', cancel: 'No' });
+                }
+
+
+            });
+
+            function addNewSection() {
+                sectionCount++;
+                var newSection = `
+             <div class="x_title">
+                                <h2>Section  @count</h2>
+                                <button class="btn  pull-right btn-danger delete-section-button" ><i class="fa fa-trash"></i></button>
+                                <br />
+                                <br />
+                            </div>
+                            <div>
+                                <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left section">
+                                    <br />
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="Id">
+                                            ID <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="number" id="id" required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="Collection Id">
+                                             Platform Collection Id <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="collectionid"  required="required" class="form-control">
+                                        </div>
+                                    </div>
+                                  <div class="ln_solid"></div>
+                                  <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align" for="Title">
+                                             Title
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="title"  class="form-control">
+                                        </div>
+                                    </div>
+                                  <div class="ln_solid"></div>
+                              </form>
+
+              </div>
+             `;
+                sectionsContainer.append(newSection);
+                $(".delete-section-button").off().on("click", function () {
+                    $(this).closest(".section").remove();
+                    location.reload();
+                });
+            }
+            $(".delete-section-button").click(function () {
+                var $deleteButton = $(this);
+               
+                alertify.confirm("Are you sure you want to delete the section?", function (e) {
+                    if (e) {
+                        var id = $deleteButton.data("id");
+                        var platform_collection_id = $deleteButton.data("platform_collection_id");
+
+                        var Data = {
+                            id: platform_collection_id,
+                            platform_collection_id: platform_collection_id,
+
+                        };
+
+                        console.log(Data);
+                        var data = JSON.stringify(Data);
+                        $.ajax({
+                            url: '/Home/DeleteSortCollection',
+                            type: 'POST',
+                            contentType: "application/json; charset=utf-8",
+                            dataType: 'json',
+                            data:data,
+                        }).done(function (response) {
+                            if (response.success) {
+                                alertify.success("Data deleted successfully!");
+                                location.reload();
+                            } else {
+                                alertify.alert("Error: " + response.message);
+                            }
+                        });
+                    }
+                }).set('labels', { ok: 'Yes', cancel: 'No' });
+            });
+
+            $("#create-section-btn").click(function () {
+                alertify.confirm("Are you sure you want to create the new section?", function (e) {
+                    if (e) {
+                        addNewSection();
+                    }
+                }).set('labels', { ok: 'Yes', cancel: 'No' });
+            });
+        })
+</script>

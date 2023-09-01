@@ -1,34 +1,19 @@
 ﻿using MVC_TEMPLATE.Models;
 using MVC_TEMPLATE.Service;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace MVC_TEMPLATE.Controllers
 {
-    public class HomeController : Controller
+    public class ConfigSectionController : Controller
     {
-        private readonly ShopifyService _shopifyService;
         private readonly IConfigService _configService;
-        public HomeController(IConfigService configService)
+        public ConfigSectionController(IConfigService configService)
         {
-            string shopifyApiKey = "9873ff53960ffe9567a56d407c5193d7";
-            string shopifyPassword = "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";
-            string shopifyStoreUrl = "quickstart-4c72b137.myshopify.com";
-
             _configService = configService;
-            _shopifyService = new ShopifyService(shopifyApiKey, shopifyPassword, shopifyStoreUrl);
-        }
-        public ActionResult Index()
-        {
-
-            return View();
         }
 
         public ActionResult Menu()
@@ -263,72 +248,6 @@ namespace MVC_TEMPLATE.Controllers
                 return Json(new { success = false, message = "An error occurred while deleting sort collection." });
             }
         }
-        public async Task<ActionResult> Products()
-        {
-            var products = await _shopifyService.GetProducts();
-
-            var productModels = products.Select(p => new ProductModel
-            {
-                ProductId = (long)p.Id,
-                Title = p.Title,
-                Description = p.BodyHtml,
-                CreatedAt = p.CreatedAt.ToString(),
-                Images = p.Images.Select(image => image.Src).ToList()
-            }).ToList();
-
-            return View("_Products", productModels);
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> SaveSelectedProductsAsync(List<selectProductModel> selectedProducts)
-        {
-            using (var dbContext = new ShopifyDataEntities())
-            {
-                long shopId = await _shopifyService.GetShopIdAsync();
-
-                foreach (var product in selectedProducts)
-                {
-                    var selectedProduct = new tbSelectedProduct
-                    {
-                        ProductId = product.ProductId,
-                        Product_Title = product.Product_Title,
-                        CreatedOn = product.CreatedOn.ToString(),
-                        ShopId = shopId
-                    };
-
-                    dbContext.tbSelectedProducts.Add(selectedProduct);
-                }
-                dbContext.SaveChanges();
-            }
-            return Json(new { success = true });
-        }
-
-        public List<Welcome_Banner> WelcomeBanner()
-        {
-            string shopName = Request.Cookies["ShopName"].Value;
-            string content = System.IO.File.ReadAllText(Path.Combine(Server.MapPath($"~/ShopConfig/{shopName}_Config.json")));
-
-            dynamic jsonObject = JsonConvert.DeserializeObject(content);
-
-            List<Welcome_Banner> itemsList = new List<Welcome_Banner>();
-
-            foreach (var itemData in jsonObject.WELCOME_BANNER["data"])
-            {
-                Welcome_Banner item = new Welcome_Banner()
-                {
-                    id = (int)itemData["id"],
-                    banner_image_url = (string)itemData["banner_image_url"],
-
-                };
-
-                itemsList.Add(item);
-            }
-
-            return itemsList;
-        }
-
 
     }
 }
-
-
